@@ -42,11 +42,6 @@ builder.Services.AddIdentityService(options =>
     options.Jwt.Audience = identitySettings.Jwt.Audience;
     options.Jwt.SigningKey = identitySettings.Jwt.SigningKey;
     options.Jwt.AccessTokenMinutes = identitySettings.Jwt.AccessTokenMinutes;
-
-    foreach (var tenant in identitySettings.Tenants)
-    {
-        options.Tenants[tenant.Key] = tenant.Value;
-    }
 });
 
 builder.Services

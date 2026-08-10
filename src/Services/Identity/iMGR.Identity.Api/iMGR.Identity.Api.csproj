@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <UserSecretsId>iMGR.Identity.Api-1d776ddb-83a1-4b61-b02e-76d0e79bc8a1</UserSecretsId>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\iMGR.Identity.Application\iMGR.Identity.Application.csproj" />
     <ProjectReference Include="..\iMGR.Identity.Infrastructure\iMGR.Identity.Infrastructure.csproj" />

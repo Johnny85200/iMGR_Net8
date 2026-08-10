@@ -27,9 +27,7 @@ public static class DependencyInjection
         });
         services.AddSingleton<ITokenIssuer>(provider =>
             new JwtTokenIssuer(options.Jwt, provider.GetRequiredService<TimeProvider>()));
-        services.AddSingleton<ITenantRegistry>(options.ControlDatabase.IsConfigured
-            ? new ControlDatabaseTenantRegistry(options.ControlDatabase)
-            : new ConfiguredTenantRegistry(options.Tenants));
+        services.AddSingleton<ITenantRegistry>(new ControlDatabaseTenantRegistry(options.ControlDatabase));
         services.AddSingleton<IIdentityStoreFactory, EfIdentityStoreFactory>();
         services.AddScoped<LoginService>();
 
