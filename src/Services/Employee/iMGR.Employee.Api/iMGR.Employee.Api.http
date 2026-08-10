@@ -1,0 +1,23 @@
+@EmployeeApi = http://localhost:5180
+@AccessToken = paste-identity-access-token-here
+
+GET {{EmployeeApi}}/health/live
+Accept: application/json
+
+###
+
+GET {{EmployeeApi}}/api/employees?page=1&pageSize=20&status=Active
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+GET {{EmployeeApi}}/api/employees/1
+Authorization: Bearer {{AccessToken}}
+Accept: application/json
+
+###
+
+GET {{EmployeeApi}}/api/organizations
+Authorization: Bearer {{AccessToken}}
+Accept: application/json

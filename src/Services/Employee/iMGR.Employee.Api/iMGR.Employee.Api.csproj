@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <UserSecretsId>iMGR.Employee.Api-49b13f81-a858-41d7-a1a7-bbe3f28f9c11</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\iMGR.Employee.Application\iMGR.Employee.Application.csproj" />
+    <ProjectReference Include="..\iMGR.Employee.Infrastructure\iMGR.Employee.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+</Project>

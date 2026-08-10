@@ -1,6 +1,6 @@
 # iMGR2 .NET 8 现代化工程
 
-本工作区是旧版 `C:\0_Fork\iMGR2` 的渐进式重构起点。当前已经搭建第一个可独立部署的微服务：`Identity Service`。它提供 REST API、JWT、EF Core/SQL Server、LINQ 查询、租户隔离、登录审计、账户锁定、旧密码兼容、OpenAPI、限流和健康检查；前端暂不在本阶段范围内。
+本工作区是旧版 `C:\0_Fork\iMGR2` 的渐进式重构起点。当前已搭建可独立部署的 `Identity Service` 和 `Employee Service`。Identity 负责登录和 JWT；Employee 负责组织与员工主数据读取，包括员工档案、任职、组织、合同、银行、家属、技能、资历、工作经历和文档元数据。前端暂不在本阶段范围内。
 
 ## 当前交付
 
@@ -9,6 +9,8 @@
 - 旧库兼容：映射租户库的 `dbo.Users`、`dbo.SystemParameter`、`dbo.LoginAudit`，以及 `_imgrCtrl` 的 `CompanyDatabase`、`DatabaseServer`；不自动执行 migration。
 - 登录：`POST /api/auth/login`。
 - 当前用户：`GET /api/auth/User`，需要 Bearer Token。
+- 员工查询：`GET /api/employees`、`GET /api/employees/{employeeId}`，使用 Identity JWT 中的 `tenant` claim。
+- 组织查询：`GET /api/organizations`，可按公司和层级过滤。
 - 运维：`GET /health/live`、Swagger `/swagger`、RFC 7807 Problem Details。
 - 安全：登录端点固定窗口限流；JWT 签名密钥必须至少 32 字符；移除了旧系统中的硬编码通用密码分支。
 - 测试：覆盖旧 SHA1 校验、PBKDF2、成功登录、失败锁定、审计和强制改密判断。
@@ -22,7 +24,14 @@ iMGR.Modernization.sln
 │  ├─ iMGR.Identity.Application
 │  ├─ iMGR.Identity.Infrastructure
 │  └─ iMGR.Identity.Api
-├─ tests/Services/Identity/iMGR.Identity.UnitTests
+├─ src/Services/Employee
+│  ├─ iMGR.Employee.Domain
+│  ├─ iMGR.Employee.Application
+│  ├─ iMGR.Employee.Infrastructure
+│  └─ iMGR.Employee.Api
+├─ tests/Services
+│  ├─ Identity/iMGR.Identity.UnitTests
+│  └─ Employee/iMGR.Employee.UnitTests
 ├─ docs/analysis
 ├─ docs/architecture
 └─ infra/sql
@@ -39,6 +48,15 @@ $env:Identity__ControlDatabase__ConnectionString = 'Server=...;Database=_imgrCtr
 $env:Identity__ControlDatabase__LegacyEncryptionKey = 'replace-with-the-key-used-by-your-imgr2-deployment'
 $env:Identity__Jwt__SigningKey = 'replace-with-a-random-secret-of-at-least-32-characters'
 dotnet run --project C:\0_Fork\iMGR2_Net8\src\Services\Identity\iMGR.Identity.Api\iMGR.Identity.Api.csproj
+```
+
+Employee Service 必须使用与 Identity Service 相同的 JWT signing key，并需要旧租户字段解密密钥：
+
+```powershell
+$env:Employee__ControlDatabase__ConnectionString = 'Server=...;Database=_imgrCtrl;User Id=...;Password=...;TrustServerCertificate=True'
+$env:Employee__ControlDatabase__LegacyEncryptionKey = 'replace-with-the-key-used-by-your-imgr2-deployment'
+$env:Authentication__SigningKey = 'the-same-signing-key-used-by-identity-service'
+dotnet run --project C:\0_Fork\iMGR2_Net8\src\Services\Employee\iMGR.Employee.Api\iMGR.Employee.Api.csproj
 ```
 
 调用登录：
@@ -71,9 +89,10 @@ dotnet build C:\0_Fork\iMGR2_Net8\iMGR.Modernization.sln
 dotnet test C:\0_Fork\iMGR2_Net8\iMGR.Modernization.sln
 ```
 
-接入数据库前先运行只读预检脚本：[control-database-preflight.sql](infra/sql/control-database-preflight.sql) 和 [identity-preflight.sql](infra/sql/identity-preflight.sql)。
+接入数据库前先运行只读预检脚本：[control-database-preflight.sql](infra/sql/control-database-preflight.sql)、[identity-preflight.sql](infra/sql/identity-preflight.sql) 和 [employee-preflight.sql](infra/sql/employee-preflight.sql)。
 
 ## 设计文档
 
 - [旧系统分析](docs/analysis/legacy-system-analysis.md)
+- [组织与员工主数据分析](docs/analysis/employee-master-data-analysis.md)
 - [目标微服务架构与迁移路线](docs/architecture/target-architecture.md)
