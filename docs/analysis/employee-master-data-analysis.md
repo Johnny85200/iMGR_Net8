@@ -71,6 +71,8 @@ Employee Domain 的 `EmploymentAssignmentSelector` 保留了这个行为，以�
 
 大量姓名、证件、地址、联系方式、银行和组织字典字段标记为 `DBAESEncryptStringField`。其格式为固定密钥/IV 的旧 Rijndael/AES CBC，并允许旧库中同时存在明文。Employee Infrastructure 会在读出后兼容解密，但密钥必须来自 Secret Store。
 
+现有 `hrone3` 数据库兼容级别为 110。Employee Service 默认将 EF Core SQL 翻译兼容级别设为 110，避免 EF Core 8 对参数集合使用仅在兼容级别 130 以上可用的 `OPENJSON` 语法。新租户完成数据库兼容级别升级后，可通过 `Employee:ControlDatabase:TenantCompatibilityLevel` 调高。
+
 首版 API 采取以下保护：
 
 - JWT 必须由 Identity Service 的相同 issuer、audience 和 signing key 验证。

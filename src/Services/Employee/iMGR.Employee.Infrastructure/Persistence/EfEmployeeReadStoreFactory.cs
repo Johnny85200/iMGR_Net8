@@ -20,7 +20,11 @@ internal sealed class EfEmployeeReadStoreFactory(EmployeeInfrastructureOptions o
         }
 
         var dbOptions = new DbContextOptionsBuilder<EmployeeDbContext>()
-            .UseSqlServer(tenant.ConnectionString, sql => sql.EnableRetryOnFailure())
+            .UseSqlServer(tenant.ConnectionString, sql =>
+            {
+                sql.UseCompatibilityLevel(options.ControlDatabase.TenantCompatibilityLevel);
+                sql.EnableRetryOnFailure();
+            })
             .Options;
         return new EfEmployeeReadStore(
             new EmployeeDbContext(dbOptions),

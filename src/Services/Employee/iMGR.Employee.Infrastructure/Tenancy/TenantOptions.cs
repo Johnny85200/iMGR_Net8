@@ -14,6 +14,8 @@ public sealed class ControlDatabaseOptions
 
     public int TenantConnectTimeoutSeconds { get; set; } = 15;
 
+    public int TenantCompatibilityLevel { get; set; } = 110;
+
     internal bool IsConfigured => !string.IsNullOrWhiteSpace(ConnectionString);
 
     internal void Validate()
@@ -22,6 +24,12 @@ public sealed class ControlDatabaseOptions
         {
             throw new InvalidOperationException(
                 "Employee:ControlDatabase:TenantConnectTimeoutSeconds must be between 1 and 120.");
+        }
+
+        if (TenantCompatibilityLevel is < 100 or > 170)
+        {
+            throw new InvalidOperationException(
+                "Employee:ControlDatabase:TenantCompatibilityLevel must be between 100 and 170.");
         }
     }
 }

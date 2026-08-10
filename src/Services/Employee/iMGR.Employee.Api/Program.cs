@@ -37,6 +37,8 @@ builder.Services.AddEmployeeService(options =>
         employeeSettings.ControlDatabase.TenantTrustServerCertificate;
     options.ControlDatabase.TenantConnectTimeoutSeconds =
         employeeSettings.ControlDatabase.TenantConnectTimeoutSeconds;
+    options.ControlDatabase.TenantCompatibilityLevel =
+        employeeSettings.ControlDatabase.TenantCompatibilityLevel;
     foreach (var tenant in employeeSettings.Tenants)
     {
         options.Tenants[tenant.Key] = tenant.Value;
