@@ -1,4 +1,4 @@
-using IMGR.LegacyData.Tenant;
+using IMGR.Database.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Employee.UnitTests.Persistence;

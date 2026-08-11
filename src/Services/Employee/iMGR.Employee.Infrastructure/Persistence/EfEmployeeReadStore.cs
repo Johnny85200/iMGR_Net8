@@ -4,8 +4,8 @@ using IMGR.Employee.Domain.Employees;
 using IMGR.Employee.Domain.Employment;
 using IMGR.Employee.Domain.Profiles;
 using IMGR.Employee.Infrastructure.Tenancy;
-using IMGR.LegacyData.Tenant;
-using IMGR.LegacyData.Tenant.Entities;
+using IMGR.Database.Tenant;
+using IMGR.Database.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Employee.Infrastructure.Persistence;
@@ -18,11 +18,11 @@ internal sealed class EfEmployeeReadStore(
         EmployeeSearchQuery query,
         CancellationToken cancellationToken)
     {
-        var employees = dbContext.Employees.AsNoTracking();
+        var employees = dbContext.EmpPersonalInfos.AsNoTracking();
         var legacyStatus = EmployeeStatusCodes.ToLegacyCode(query.Status);
         if (legacyStatus is not null)
         {
-            employees = employees.Where(record => record.Status == legacyStatus);
+            employees = employees.Where(record => record.EmpStatus == legacyStatus);
         }
 
         if (query.Search is not null)
@@ -30,31 +30,31 @@ internal sealed class EfEmployeeReadStore(
             var plaintext = query.Search;
             var encrypted = protector.Protect(plaintext);
             employees = employees.Where(record =>
-                record.EmployeeNumber == plaintext || record.EmployeeNumber == encrypted
-                || record.EnglishSurname == plaintext || record.EnglishSurname == encrypted
-                || record.EnglishOtherName == plaintext || record.EnglishOtherName == encrypted
-                || record.ChineseName == plaintext || record.ChineseName == encrypted
-                || record.Alias == plaintext || record.Alias == encrypted);
+                record.EmpNo == plaintext || record.EmpNo == encrypted
+                || record.EmpEngSurname == plaintext || record.EmpEngSurname == encrypted
+                || record.EmpEngOtherName == plaintext || record.EmpEngOtherName == encrypted
+                || record.EmpChiFullName == plaintext || record.EmpChiFullName == encrypted
+                || record.EmpAlias == plaintext || record.EmpAlias == encrypted);
         }
 
         var totalCount = await employees.CountAsync(cancellationToken);
         var pageRecords = await employees
-            .OrderBy(record => record.EmployeeId)
+            .OrderBy(record => record.EmpID)
             .Skip((query.Page - 1) * query.PageSize)
             .Take(query.PageSize)
             .ToListAsync(cancellationToken);
-        var employeeIds = pageRecords.Select(record => record.EmployeeId).ToArray();
+        var employeeIds = pageRecords.Select(record => record.EmpID).ToArray();
         var assignments = await LoadAssignmentsAsync(employeeIds, cancellationToken);
 
         var items = pageRecords.Select(record =>
         {
-            var employeeAssignments = assignments.GetValueOrDefault(record.EmployeeId) ?? [];
+            var employeeAssignments = assignments.GetValueOrDefault(record.EmpID) ?? [];
             return new EmployeeSummary(
-                record.EmployeeId,
-                U(record.EmployeeNumber) ?? string.Empty,
+                record.EmpID,
+                U(record.EmpNo) ?? string.Empty,
                 BuildDisplayName(record),
-                EmployeeStatusCodes.Parse(record.Status),
-                D(record.DateOfJoin),
+                EmployeeStatusCodes.Parse(record.EmpStatus),
+                D(record.EmpDateOfJoin),
                 EmploymentAssignmentSelector.SelectAsOf(employeeAssignments, query.AsOfDate));
         }).ToArray();
 
@@ -66,8 +66,8 @@ internal sealed class EfEmployeeReadStore(
         DateOnly asOfDate,
         CancellationToken cancellationToken)
     {
-        var employee = await dbContext.Employees.AsNoTracking()
-            .SingleOrDefaultAsync(record => record.EmployeeId == employeeId, cancellationToken);
+        var employee = await dbContext.EmpPersonalInfos.AsNoTracking()
+            .SingleOrDefaultAsync(record => record.EmpID == employeeId, cancellationToken);
         if (employee is null)
         {
             return null;
@@ -86,30 +86,30 @@ internal sealed class EfEmployeeReadStore(
         var documents = await LoadDocumentsAsync(employeeId, cancellationToken);
 
         return new EmployeeProfile(
-            employee.EmployeeId,
-            U(employee.EmployeeNumber) ?? string.Empty,
-            EmployeeStatusCodes.Parse(employee.Status),
-            U(employee.EnglishSurname) ?? string.Empty,
-            U(employee.EnglishOtherName) ?? string.Empty,
-            U(employee.ChineseName) ?? string.Empty,
-            U(employee.Alias) ?? string.Empty,
-            SensitiveValueMasker.Mask(U(employee.IdentityNumber)),
-            U(employee.Gender),
-            U(employee.MaritalStatus),
-            D(employee.DateOfBirth),
-            U(employee.Nationality),
-            SensitiveValueMasker.Mask(U(employee.PassportNumber)),
-            D(employee.PassportExpiryDate),
-            U(employee.ResidentialAddress),
-            U(employee.CorrespondenceAddress),
-            D(employee.DateOfJoin),
-            D(employee.ServiceDate),
-            D(employee.ProbationLastDate),
-            U(employee.Email),
-            U(employee.InternalEmail),
-            U(employee.MobileNumber),
-            U(employee.HomePhoneNumber),
-            U(employee.OfficePhoneNumber),
+            employee.EmpID,
+            U(employee.EmpNo) ?? string.Empty,
+            EmployeeStatusCodes.Parse(employee.EmpStatus),
+            U(employee.EmpEngSurname) ?? string.Empty,
+            U(employee.EmpEngOtherName) ?? string.Empty,
+            U(employee.EmpChiFullName) ?? string.Empty,
+            U(employee.EmpAlias) ?? string.Empty,
+            SensitiveValueMasker.Mask(U(employee.EmpHKID)),
+            U(employee.EmpGender),
+            U(employee.EmpMaritalStatus),
+            D(employee.EmpDateOfBirth),
+            U(employee.EmpNationality),
+            SensitiveValueMasker.Mask(U(employee.EmpPassportNo)),
+            D(employee.EmpPassportExpiryDate),
+            U(employee.EmpResAddr),
+            U(employee.EmpCorAddr),
+            D(employee.EmpDateOfJoin),
+            D(employee.EmpServiceDate),
+            D(employee.EmpProbaLastDate),
+            U(employee.EmpEmail),
+            U(employee.EmpInternalEmail),
+            U(employee.EmpMobileNo),
+            U(employee.EmpHomePhoneNo),
+            U(employee.EmpOfficePhoneNo),
             U(employee.Remark),
             EmploymentAssignmentSelector.SelectAsOf(assignments, asOfDate),
             assignments,
@@ -132,37 +132,37 @@ internal sealed class EfEmployeeReadStore(
         var query = dbContext.HierarchyElements.AsNoTracking();
         if (companyId is not null)
         {
-            query = query.Where(record => record.CompanyId == companyId);
+            query = query.Where(record => record.CompanyID == companyId);
         }
 
         if (levelId is not null)
         {
-            query = query.Where(record => record.LevelId == levelId);
+            query = query.Where(record => record.HLevelID == levelId);
         }
 
-        var elements = await query.OrderBy(record => record.ElementId).ToListAsync(cancellationToken);
+        var elements = await query.OrderBy(record => record.HElementID).ToListAsync(cancellationToken);
         var companies = await dbContext.Companies.AsNoTracking()
-            .Where(record => elements.Select(element => element.CompanyId).Contains(record.CompanyId))
-            .ToDictionaryAsync(record => record.CompanyId, cancellationToken);
+            .Where(record => elements.Select(element => element.CompanyID).Contains(record.CompanyID))
+            .ToDictionaryAsync(record => record.CompanyID, cancellationToken);
         var levels = await dbContext.HierarchyLevels.AsNoTracking()
-            .Where(record => elements.Select(element => element.LevelId).Contains(record.LevelId))
-            .ToDictionaryAsync(record => record.LevelId, cancellationToken);
+            .Where(record => elements.Select(element => element.HLevelID).Contains(record.HLevelID))
+            .ToDictionaryAsync(record => record.HLevelID, cancellationToken);
 
         return elements.Select(element =>
         {
-            companies.TryGetValue(element.CompanyId ?? 0, out var company);
-            levels.TryGetValue(element.LevelId ?? 0, out var level);
+            companies.TryGetValue(element.CompanyID ?? 0, out var company);
+            levels.TryGetValue(element.HLevelID ?? 0, out var level);
             return new OrganizationUnit(
-                element.ElementId,
-                U(element.Code),
-                U(element.Description),
-                element.CompanyId,
-                U(company?.Code),
-                U(company?.Name),
-                element.LevelId,
-                U(level?.Code),
-                U(level?.Description),
-                level?.Sequence);
+                element.HElementID,
+                U(element.HElementCode),
+                U(element.HElementDesc),
+                element.CompanyID,
+                U(company?.CompanyCode),
+                U(company?.CompanyName),
+                element.HLevelID,
+                U(level?.HLevelCode),
+                U(level?.HLevelDesc),
+                level?.HLevelSeqNo);
         }).ToArray();
     }
 
@@ -177,93 +177,93 @@ internal sealed class EfEmployeeReadStore(
             return [];
         }
 
-        var positions = await dbContext.Positions.AsNoTracking()
-            .Where(record => record.EmployeeId != null && employeeIds.Contains(record.EmployeeId.Value))
-            .OrderByDescending(record => record.EffectiveFrom)
-            .ThenByDescending(record => record.AssignmentId)
+        var positions = await dbContext.EmpPositionInfos.AsNoTracking()
+            .Where(record => record.EmpID != null && employeeIds.Contains(record.EmpID.Value))
+            .OrderByDescending(record => record.EmpPosEffFr)
+            .ThenByDescending(record => record.EmpPosID)
             .ToListAsync(cancellationToken);
         var companies = await LoadDictionaryAsync(
             dbContext.Companies,
-            positions.Select(record => record.CompanyId),
-            record => record.CompanyId,
+            positions.Select(record => record.CompanyID),
+            record => record.CompanyID,
             cancellationToken);
         var positionLookups = await LoadDictionaryAsync(
-            dbContext.PositionLookups,
-            positions.Select(record => record.PositionId),
-            record => record.PositionId,
+            dbContext.Positions,
+            positions.Select(record => record.PositionID),
+            record => record.PositionID,
             cancellationToken);
         var ranks = await LoadDictionaryAsync(
             dbContext.Ranks,
-            positions.Select(record => record.RankId),
-            record => record.RankId,
+            positions.Select(record => record.RankID),
+            record => record.RankID,
             cancellationToken);
         var employmentTypes = await LoadDictionaryAsync(
             dbContext.EmploymentTypes,
-            positions.Select(record => record.EmploymentTypeId),
-            record => record.EmploymentTypeId,
+            positions.Select(record => record.EmploymentTypeID),
+            record => record.EmploymentTypeID,
             cancellationToken);
 
-        var assignmentIds = positions.Select(record => record.AssignmentId).ToArray();
-        var hierarchies = await dbContext.EmployeeHierarchies.AsNoTracking()
-            .Where(record => record.AssignmentId != null && assignmentIds.Contains(record.AssignmentId.Value))
+        var assignmentIds = positions.Select(record => record.EmpPosID).ToArray();
+        var hierarchies = await dbContext.EmpHierarchies.AsNoTracking()
+            .Where(record => record.EmpPosID != null && assignmentIds.Contains(record.EmpPosID.Value))
             .ToListAsync(cancellationToken);
         var elements = await LoadDictionaryAsync(
             dbContext.HierarchyElements,
-            hierarchies.Select(record => record.ElementId),
-            record => record.ElementId,
+            hierarchies.Select(record => record.HElementID),
+            record => record.HElementID,
             cancellationToken);
         var levels = await LoadDictionaryAsync(
             dbContext.HierarchyLevels,
-            hierarchies.Select(record => record.LevelId),
-            record => record.LevelId,
+            hierarchies.Select(record => record.HLevelID),
+            record => record.HLevelID,
             cancellationToken);
         var organizationsByAssignment = hierarchies
-            .Where(record => record.AssignmentId is not null)
-            .GroupBy(record => record.AssignmentId!.Value)
+            .Where(record => record.EmpPosID is not null)
+            .GroupBy(record => record.EmpPosID!.Value)
             .ToDictionary(
                 group => group.Key,
                 group => (IReadOnlyList<OrganizationAssignment>)group.Select(record =>
                 {
-                    elements.TryGetValue(record.ElementId ?? 0, out var element);
-                    levels.TryGetValue(record.LevelId ?? element?.LevelId ?? 0, out var level);
+                    elements.TryGetValue(record.HElementID ?? 0, out var element);
+                    levels.TryGetValue(record.HLevelID ?? element?.HLevelID ?? 0, out var level);
                     return new OrganizationAssignment(
-                        record.ElementId ?? 0,
-                        U(element?.Code),
-                        U(element?.Description),
-                        record.LevelId ?? element?.LevelId,
-                        U(level?.Code),
-                        U(level?.Description),
-                        level?.Sequence);
+                        record.HElementID ?? 0,
+                        U(element?.HElementCode),
+                        U(element?.HElementDesc),
+                        record.HLevelID ?? element?.HLevelID,
+                        U(level?.HLevelCode),
+                        U(level?.HLevelDesc),
+                        level?.HLevelSeqNo);
                 }).OrderBy(item => item.LevelSequence).ToArray());
 
         return positions
-            .Where(record => record.EmployeeId is not null)
-            .GroupBy(record => record.EmployeeId!.Value)
+            .Where(record => record.EmpID is not null)
+            .GroupBy(record => record.EmpID!.Value)
             .ToDictionary(
                 group => group.Key,
                 group => (IReadOnlyList<EmploymentAssignment>)group.Select(record =>
                 {
-                    companies.TryGetValue(record.CompanyId ?? 0, out var company);
-                    positionLookups.TryGetValue(record.PositionId ?? 0, out var position);
-                    ranks.TryGetValue(record.RankId ?? 0, out var rank);
-                    employmentTypes.TryGetValue(record.EmploymentTypeId ?? 0, out var employmentType);
+                    companies.TryGetValue(record.CompanyID ?? 0, out var company);
+                    positionLookups.TryGetValue(record.PositionID ?? 0, out var position);
+                    ranks.TryGetValue(record.RankID ?? 0, out var rank);
+                    employmentTypes.TryGetValue(record.EmploymentTypeID ?? 0, out var employmentType);
                     return new EmploymentAssignment(
-                        record.AssignmentId,
-                        D(record.EffectiveFrom),
-                        D(record.EffectiveTo),
-                        record.CompanyId,
-                        U(company?.Code),
-                        U(company?.Name),
-                        record.PositionId,
-                        U(position?.Code),
-                        U(position?.Description),
-                        record.RankId,
-                        U(rank?.Code),
-                        U(rank?.Description),
-                        record.EmploymentTypeId,
-                        U(employmentType?.Code),
-                        U(employmentType?.Description),
-                        organizationsByAssignment.GetValueOrDefault(record.AssignmentId) ?? []);
+                        record.EmpPosID,
+                        D(record.EmpPosEffFr),
+                        D(record.EmpPosEffTo),
+                        record.CompanyID,
+                        U(company?.CompanyCode),
+                        U(company?.CompanyName),
+                        record.PositionID,
+                        U(position?.PositionCode),
+                        U(position?.PositionDesc),
+                        record.RankID,
+                        U(rank?.RankCode),
+                        U(rank?.RankDesc),
+                        record.EmploymentTypeID,
+                        U(employmentType?.EmploymentTypeCode),
+                        U(employmentType?.EmploymentTypeDesc),
+                        organizationsByAssignment.GetValueOrDefault(record.EmpPosID) ?? []);
                 }).ToArray());
     }
 
@@ -271,137 +271,141 @@ internal sealed class EfEmployeeReadStore(
         int employeeId,
         CancellationToken cancellationToken)
     {
-        var records = await dbContext.Contracts.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId)
-            .OrderByDescending(record => record.EmployedFrom)
+        var records = await dbContext.EmpContractTerms.AsNoTracking()
+            .Where(record => record.EmpID == employeeId)
+            .OrderByDescending(record => record.EmpContractEmployedFrom)
             .ToListAsync(cancellationToken);
         return records.Select(record => new EmploymentContract(
-            record.ContractId,
-            U(record.CompanyName),
-            U(record.CompanyContactNumber),
-            U(record.CompanyAddress),
-            D(record.EmployedFrom),
-            D(record.EmployedTo),
-            record.Gratuity,
-            record.CurrencyCode,
-            record.GratuityMethod)).ToArray();
+            record.EmpContractID,
+            U(record.EmpContractCompanyName),
+            U(record.EmpContractCompanyContactNo),
+            U(record.EmpContractCompanyAddr),
+            D(record.EmpContractEmployedFrom),
+            D(record.EmpContractEmployedTo),
+            record.EmpContractGratuity,
+            record.CurrencyID,
+            record.EmpContractGratuityMethod)).ToArray();
     }
 
     private async Task<IReadOnlyList<EmployeeBankAccount>> LoadBankAccountsAsync(
         int employeeId,
         CancellationToken cancellationToken)
     {
-        var records = await dbContext.BankAccounts.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId)
-            .OrderByDescending(record => record.IsDefault)
-            .ThenBy(record => record.BankAccountId)
+        var records = await dbContext.EmpBankAccounts.AsNoTracking()
+            .Where(record => record.EmpID == employeeId)
+            .OrderByDescending(record => record.EmpAccDefault)
+            .ThenBy(record => record.EmpBankAccountID)
             .ToListAsync(cancellationToken);
-        var bankCodes = records.Select(record => U(record.BankCode)).Where(code => code is not null).ToArray();
-        var banks = await dbContext.Banks.AsNoTracking()
+        var bankCodes = records.Select(record => U(record.EmpBankCode)).Where(code => code is not null).ToArray();
+        var banks = await dbContext.BankLists.AsNoTracking()
             .Where(record => bankCodes.Contains(record.BankCode))
             .ToDictionaryAsync(record => record.BankCode, cancellationToken);
         return records.Select(record =>
         {
-            var bankCode = U(record.BankCode);
+            var bankCode = U(record.EmpBankCode);
             banks.TryGetValue(bankCode ?? string.Empty, out var bank);
             return new EmployeeBankAccount(
-                record.BankAccountId,
+                record.EmpBankAccountID,
                 bankCode,
-                bank?.Name,
-                U(record.BranchCode),
-                SensitiveValueMasker.Mask(U(record.AccountNumber)),
-                U(record.AccountHolderName),
-                record.IsDefault == 1,
-                U(record.Remark));
+                bank?.BankName,
+                U(record.EmpBranchCode),
+                SensitiveValueMasker.Mask(U(record.EmpAccountNo)),
+                U(record.EmpBankAccountHolderName),
+                record.EmpAccDefault is true,
+                U(record.EmpBankAccountRemark));
         }).ToArray();
     }
 
     private async Task<IReadOnlyList<EmployeeSpouse>> LoadSpousesAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.Spouses.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId).ToListAsync(token);
+        var records = await dbContext.EmpSpouses.AsNoTracking()
+            .Where(record => record.EmpID == employeeId).ToListAsync(token);
         return records.Select(record => new EmployeeSpouse(
-            record.SpouseId, U(record.Surname) ?? string.Empty, U(record.OtherName) ?? string.Empty,
-            U(record.ChineseName) ?? string.Empty, SensitiveValueMasker.Mask(U(record.IdentityNumber)),
-            SensitiveValueMasker.Mask(U(record.PassportNumber)), D(record.DateOfBirth))).ToArray();
+            record.EmpSpouseID, U(record.EmpSpouseSurname) ?? string.Empty, U(record.EmpSpouseOtherName) ?? string.Empty,
+            U(record.EmpSpouseChineseName) ?? string.Empty, SensitiveValueMasker.Mask(U(record.EmpSpouseHKID)),
+            SensitiveValueMasker.Mask(U(record.EmpSpousePassportNo)), D(record.EmpSpouseDateOfBirth))).ToArray();
     }
 
     private async Task<IReadOnlyList<EmployeeDependant>> LoadDependantsAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.Dependants.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId).ToListAsync(token);
+        var records = await dbContext.EmpDependants.AsNoTracking()
+            .Where(record => record.EmpID == employeeId).ToListAsync(token);
         return records.Select(record => new EmployeeDependant(
-            record.DependantId, U(record.Surname) ?? string.Empty, U(record.OtherName) ?? string.Empty,
-            U(record.ChineseName) ?? string.Empty, U(record.Gender), U(record.Relationship),
-            SensitiveValueMasker.Mask(U(record.IdentityNumber)), SensitiveValueMasker.Mask(U(record.PassportNumber)),
-            D(record.DateOfBirth))).ToArray();
+            record.EmpDependantID, U(record.EmpDependantSurname) ?? string.Empty, U(record.EmpDependantOtherName) ?? string.Empty,
+            U(record.EmpDependantChineseName) ?? string.Empty, U(record.EmpDependantGender), U(record.EmpDependantRelationship),
+            SensitiveValueMasker.Mask(U(record.EmpDependantHKID)), SensitiveValueMasker.Mask(U(record.EmpDependantPassportNo)),
+            D(record.EmpDependantDateOfBirth))).ToArray();
     }
 
     private async Task<IReadOnlyList<EmergencyContact>> LoadEmergencyContactsAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.EmergencyContacts.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId).ToListAsync(token);
+        var records = await dbContext.EmpEmergencyContacts.AsNoTracking()
+            .Where(record => record.EmpID == employeeId).ToListAsync(token);
         return records.Select(record => new EmergencyContact(
-            record.EmergencyContactId, U(record.Name) ?? string.Empty, U(record.Gender), U(record.Relationship),
-            U(record.DaytimeContactNumber), U(record.NightContactNumber))).ToArray();
+            record.EmpEmergencyContactID, U(record.EmpEmergencyContactName) ?? string.Empty,
+            U(record.EmpEmergencyContactGender), U(record.EmpEmergencyContactRelationship),
+            U(record.EmpEmergencyContactContactNo), null)).ToArray();
     }
 
     private async Task<IReadOnlyList<EmployeeSkill>> LoadSkillsAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.EmployeeSkills.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId).ToListAsync(token);
-        var skills = await LoadDictionaryAsync(dbContext.Skills, records.Select(record => record.SkillId),
-            record => record.SkillId, token);
-        var levels = await LoadDictionaryAsync(dbContext.SkillLevels, records.Select(record => record.SkillLevelId),
-            record => record.SkillLevelId, token);
+        var records = await dbContext.EmpSkills.AsNoTracking()
+            .Where(record => record.EmpID == employeeId).ToListAsync(token);
+        var skills = await LoadDictionaryAsync(dbContext.Skills, records.Select(record => record.SkillID),
+            record => record.SkillID, token);
+        var levels = await LoadDictionaryAsync(dbContext.SkillLevels, records.Select(record => record.SkillLevelID),
+            record => record.SkillLevelID, token);
         return records.Select(record =>
         {
-            skills.TryGetValue(record.SkillId ?? 0, out var skill);
-            levels.TryGetValue(record.SkillLevelId ?? 0, out var level);
-            return new EmployeeSkill(record.EmployeeSkillId, record.SkillId, U(skill?.Code), U(skill?.Description),
-                record.SkillLevelId, U(level?.Code), U(level?.Description));
+            skills.TryGetValue(record.SkillID ?? 0, out var skill);
+            levels.TryGetValue(record.SkillLevelID ?? 0, out var level);
+            return new EmployeeSkill(record.EmpSkillID, record.SkillID, U(skill?.SkillCode), U(skill?.SkillDesc),
+                record.SkillLevelID, U(level?.SkillLevelCode), U(level?.SkillLevelDesc));
         }).ToArray();
     }
 
     private async Task<IReadOnlyList<EmployeeQualification>> LoadQualificationsAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.EmployeeQualifications.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId).ToListAsync(token);
+        var records = await dbContext.EmpQualifications.AsNoTracking()
+            .Where(record => record.EmpID == employeeId).ToListAsync(token);
         var lookups = await LoadDictionaryAsync(dbContext.Qualifications,
-            records.Select(record => record.QualificationId), record => record.QualificationId, token);
+            records.Select(record => record.QualificationID), record => record.QualificationID, token);
         return records.Select(record =>
         {
-            lookups.TryGetValue(record.QualificationId ?? 0, out var lookup);
-            return new EmployeeQualification(record.EmployeeQualificationId, record.QualificationId,
-                U(lookup?.Code), U(lookup?.Description), D(record.From), D(record.To), U(record.Institution),
-                U(record.LearningMethod), U(record.Remark));
+            lookups.TryGetValue(record.QualificationID ?? 0, out var lookup);
+            return new EmployeeQualification(record.EmpQualificationID, record.QualificationID,
+                U(lookup?.QualificationCode), U(lookup?.QualificationDesc), D(record.EmpQualificationFrom),
+                D(record.EmpQualificationTo), U(record.EmpQualificationInstitution),
+                U(record.EmpQualificationLearningMethod), U(record.EmpQualificationRemark));
         }).ToArray();
     }
 
     private async Task<IReadOnlyList<WorkExperience>> LoadWorkExperiencesAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.WorkExperiences.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId)
-            .OrderByDescending(record => record.FromYear).ThenByDescending(record => record.FromMonth)
+        var records = await dbContext.EmpWorkExps.AsNoTracking()
+            .Where(record => record.EmpID == employeeId)
+            .OrderByDescending(record => record.EmpWorkExpFromYear).ThenByDescending(record => record.EmpWorkExpFromMonth)
             .ToListAsync(token);
         return records.Select(record => new WorkExperience(
-            record.WorkExperienceId, record.FromYear, record.FromMonth, record.ToYear, record.ToMonth,
-            U(record.CompanyName), U(record.Position), record.EmploymentTypeId,
-            record.IsRelevantExperience == 1, U(record.Remark))).ToArray();
+            record.EmpWorkExpID, record.EmpWorkExpFromYear, record.EmpWorkExpFromMonth,
+            record.EmpWorkExpToYear, record.EmpWorkExpToMonth, U(record.EmpWorkExpCompanyName),
+            U(record.EmpWorkExpPosition), record.EmpWorkExpEmploymentTypeID,
+            record.EmpWorkExpIsRelevantExperience is true, U(record.EmpWorkExpRemark))).ToArray();
     }
 
     private async Task<IReadOnlyList<EmployeeDocument>> LoadDocumentsAsync(int employeeId, CancellationToken token)
     {
-        var records = await dbContext.EmployeeDocuments.AsNoTracking()
-            .Where(record => record.EmployeeId == employeeId).ToListAsync(token);
+        var records = await dbContext.EmpDocuments.AsNoTracking()
+            .Where(record => record.EmpID == employeeId).ToListAsync(token);
         var types = await LoadDictionaryAsync(dbContext.DocumentTypes,
-            records.Select(record => record.DocumentTypeId), record => record.DocumentTypeId, token);
+            records.Select(record => record.DocumentTypeID), record => record.DocumentTypeID, token);
         return records.Select(record =>
         {
-            types.TryGetValue(record.DocumentTypeId ?? 0, out var type);
-            return new EmployeeDocument(record.DocumentId, record.DocumentTypeId, U(type?.Code), U(type?.Description),
-                U(record.OriginalFileName), U(record.Description), record.IsCompressed == 1,
-                record.IsProfilePhoto == 1);
+            types.TryGetValue(record.DocumentTypeID ?? 0, out var type);
+            return new EmployeeDocument(record.EmpDocumentID, record.DocumentTypeID,
+                U(type?.DocumentTypeCode), U(type?.DocumentTypeDesc), U(record.EmpDocumentOriginalFileName),
+                U(record.EmpDocumentDesc), record.EmpDocumentIsCompressed is true,
+                record.EmpDocumentIsProfilePhoto is true);
         }).ToArray();
     }
 
@@ -424,11 +428,11 @@ internal sealed class EfEmployeeReadStore(
 
     private string BuildDisplayName(EmpPersonalInfo record)
     {
-        var englishName = string.Join(' ', new[] { U(record.EnglishSurname), U(record.EnglishOtherName) }
+        var englishName = string.Join(' ', new[] { U(record.EmpEngSurname), U(record.EmpEngOtherName) }
             .Where(value => !string.IsNullOrWhiteSpace(value)));
         return !string.IsNullOrWhiteSpace(englishName)
             ? englishName
-            : U(record.ChineseName) ?? U(record.Alias) ?? U(record.EmployeeNumber) ?? record.EmployeeId.ToString();
+            : U(record.EmpChiFullName) ?? U(record.EmpAlias) ?? U(record.EmpNo) ?? record.EmpID.ToString();
     }
 
     private string? U(string? value) => protector.Unprotect(value);

@@ -1,8 +1,10 @@
-using IMGR.LegacyData.Control;
-using IMGR.LegacyData.Control.Entities;
-using IMGR.LegacyData.Tenant;
-using IMGR.LegacyData.Tenant.Entities;
+using IMGR.Database.Control;
+using IMGR.Database.Control.Entities;
+using IMGR.Database.Tenant;
+using IMGR.Database.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
+using DatabaseUser = IMGR.Database.Tenant.Entities.User;
+using TenantSystemParameter = IMGR.Database.Tenant.Entities.SystemParameter;
 
 namespace IMGR.Identity.UnitTests.Persistence;
 
@@ -16,8 +18,8 @@ public sealed class LegacyDataModelTests
             .Options;
         using var context = new LegacyTenantDbContext(options);
 
-        Assert.Equal("Users", context.Model.FindEntityType(typeof(Users))?.GetTableName());
-        Assert.Equal("SystemParameter", context.Model.FindEntityType(typeof(SystemParameter))?.GetTableName());
+        Assert.Equal("Users", context.Model.FindEntityType(typeof(DatabaseUser))?.GetTableName());
+        Assert.Equal("SystemParameter", context.Model.FindEntityType(typeof(TenantSystemParameter))?.GetTableName());
         Assert.Equal("LoginAudit", context.Model.FindEntityType(typeof(LoginAudit))?.GetTableName());
     }
 

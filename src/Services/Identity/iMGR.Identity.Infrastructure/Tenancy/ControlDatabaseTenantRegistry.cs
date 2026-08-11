@@ -1,4 +1,4 @@
-using IMGR.LegacyData.Control;
+using IMGR.Database.Control;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Identity.Infrastructure.Tenancy;
@@ -33,21 +33,21 @@ internal sealed class ControlDatabaseTenantRegistry : ITenantRegistry
 
         var company = await dbContext.CompanyDatabases
             .AsNoTracking()
-            .Where(record => record.ClientCode == normalizedTenantCode)
-            .OrderBy(record => record.CompanyDatabaseId)
+            .Where(record => record.CompanyDBClientCode == normalizedTenantCode)
+            .OrderBy(record => record.CompanyDBID)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (company is null || !IsEnabled(company.IsActive))
+        if (company is null || !IsEnabled(company.CompanyDBIsActive))
         {
             return null;
         }
 
-        if (_options.RequireImgrEnabled && !IsEnabled(company.HasImgr))
+        if (_options.RequireImgrEnabled && !IsEnabled(company.CompanyDBHasIMGR))
         {
             return null;
         }
 
-        if (company.DatabaseServerId is null)
+        if (company.DBServerID is null)
         {
             throw new InvalidOperationException(
                 $"Tenant '{normalizedTenantCode}' does not reference a DatabaseServer record.");
@@ -56,10 +56,10 @@ internal sealed class ControlDatabaseTenantRegistry : ITenantRegistry
         var server = await dbContext.DatabaseServers
             .AsNoTracking()
             .SingleOrDefaultAsync(
-                record => record.DatabaseServerId == company.DatabaseServerId.Value,
+                record => record.DBServerID == company.DBServerID.Value,
                 cancellationToken)
             ?? throw new InvalidOperationException(
-                $"DatabaseServer {company.DatabaseServerId.Value} for tenant '{normalizedTenantCode}' was not found.");
+                $"DatabaseServer {company.DBServerID.Value} for tenant '{normalizedTenantCode}' was not found.");
 
         var connectionString = _connectionStringFactory.Create(company, server);
         return new TenantDescriptor(normalizedTenantCode, connectionString);

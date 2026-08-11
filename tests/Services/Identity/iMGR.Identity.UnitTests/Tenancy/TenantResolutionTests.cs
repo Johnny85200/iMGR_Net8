@@ -1,5 +1,5 @@
 using IMGR.Identity.Infrastructure.Tenancy;
-using IMGR.LegacyData.Control.Entities;
+using IMGR.Database.Control.Entities;
 using Microsoft.Data.SqlClient;
 
 namespace IMGR.Identity.UnitTests.Tenancy;
@@ -45,15 +45,15 @@ public sealed class TenantResolutionTests
             new LegacyFieldDecryptor(options.LegacyEncryptionKey));
         var company = new CompanyDatabase
         {
-            ClientCode = "CLIENT1",
-            DatabaseSchemaName = "2gyHIWkxZfWip7TOuZihCg=="
+            CompanyDBClientCode = "CLIENT1",
+            CompanyDBSchemaName = "2gyHIWkxZfWip7TOuZihCg=="
         };
         var server = new DatabaseServer
         {
-            DatabaseType = "655WrqLeSzGndK1D8ASrdw==",
-            Location = "HWbUW/MDjbJBIyZGnnTwIhug8iWV4XTQpjh9JDmzyXM=",
-            UserId = "JJmo+OiG8xavQyiDLSEsyg==",
-            Password = "+lzqJmCtKOelRNSPWKp/Ow=="
+            DBServerDBType = "655WrqLeSzGndK1D8ASrdw==",
+            DBServerLocation = "HWbUW/MDjbJBIyZGnnTwIhug8iWV4XTQpjh9JDmzyXM=",
+            DBServerUserID = "JJmo+OiG8xavQyiDLSEsyg==",
+            DBServerPassword = "+lzqJmCtKOelRNSPWKp/Ow=="
         };
 
         var connectionString = factory.Create(company, server);

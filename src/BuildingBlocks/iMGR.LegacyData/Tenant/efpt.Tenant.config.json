@@ -1,0 +1,1266 @@
+{
+    "CodeGenerationMode":  4,
+    "ContextClassName":  "LegacyTenantDbContext",
+    "ContextNamespace":  "IMGR.Database.Tenant",
+    "FilterSchemas":  false,
+    "IncludeConnectionString":  false,
+    "IrregularWords":  null,
+    "MinimumProductVersion":  "2.6.1604",
+    "ModelNamespace":  "IMGR.Database.Tenant.Entities",
+    "OutputContextPath":  "Tenant",
+    "OutputPath":  "Tenant\\Entities",
+    "PluralRules":  null,
+    "PreserveCasingWithRegex":  true,
+    "ProjectRootNamespace":  "IMGR.Database",
+    "Schemas":  null,
+    "SelectedHandlebarsLanguage":  2,
+    "SelectedToBeGenerated":  0,
+    "SingularRules":  null,
+    "T4TemplatePath":  null,
+    "Tables":  [
+                   {
+                       "Name":  "[dbo].[AccountsIntegrationERContribution]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AccountsIntegrationPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AccountsIntegrationPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ALProrataRoundingRule]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ALProrataRoundingRuleDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AsyncTask]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AttendanceFormula]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AttendancePlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AttendancePlanAdditionalPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AttendancePreparationImportBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AttendancePreparationProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AttendanceRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AuditTrail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AuditTrailDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AuthorizationGroup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AuthorizationWorkFlow]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AuthorizationWorkFlowDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Authorizer]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AuthorizerDelegate]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AVCPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AVCPlanDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AVCPlanPaymentCeiling]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AVCPlanPaymentConsider]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[AVCPlanPaymentFloor]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[BankFileDailySeq]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[BankList]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[BankSwift]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[BenefitPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[BonusProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CasualParameter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CasualPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CasualRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CasualScheme]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CessationReason]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ClaimsAndDeductions]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ClaimsAndDeductionsImportBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CommissionAchievement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CommissionAchievementImportBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Company]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyBankAccount]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyBankAccountMap]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyBankAccountSetting]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompensationLeaveEntitle]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CostAllocation]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CostAllocationDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CostAllocationDetailHElement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CostCenter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Country]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[DisciplinaryWarning]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[DocumentType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[DoublePayAdjustment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[DoublePayAdjustmentImportBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[eChannelAuthorizedSignature]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[eChannelMPFAuthorizedSignature]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmailLog]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpAnnouncementReadLog]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpAnnualSponsorship]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpAppraisal]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpAppreciation]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpAttendancePreparationProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpAVCPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpBackpayInstruction]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpBankAccount]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpBeneficiaries]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpBenefit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpBonusProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpCasualPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpContractTerms]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpCostCenter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpCostCenterDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpDependant]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpDisciplinary]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpDocument]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpEmergencyContact]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpESSActForHistory]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpESSDelegate]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpExtraField]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpExtraFieldValue]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpFinalPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpFormBody]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpFormData]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpHierarchy]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpLeaveCashOut]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmploymentType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpMPFPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpORSOPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpOverseasCompany]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPayroll]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPayslip]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPermit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPersonalInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPersonalInfoDeleted]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPlaceOfResidence]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpPositionInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpQualification]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpRecurringPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpRequest]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpRequestApprovalHistory]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpRosterTableGroup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpRPWinson]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpSearch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpSkill]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpSpouse]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpTaxReport]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpTermination]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpTrainingEnroll]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpTrainingProgram]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpUniform]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpWorkExp]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpWorkingSummary]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmpWorkInjuryRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ERosterCSVLog]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ESSAnnouncement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ESSDelegateFunc]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ESSLoginAudit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ESSPasswordHistory]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HierarchyElement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HierarchyLevel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HitRateProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HitRateProcessImportBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HROneApiLog]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[INBOX]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[InboxAttachment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[IncentivePayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[IncentivePaymentImportBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Institution]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[IssueCountry]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LateWaive]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LAWS_IN_OUT_REMARKS]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveApplication]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveApplicationCancel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveApplicationDeleted]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveBalance]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveBalanceAdjustment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveBalanceEntitle]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveCashOutProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveCode]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeavePlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeavePlanBroughtForward]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeavePlanEntitle]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LeaveType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[LoginAudit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MinimumWage]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFParameter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFScheme]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFSchemeCessationReason]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFSchemeCessationReasonMapping]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFSchemeTrustee]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Nationality]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ORSOPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ORSOPlanDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ORSORecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[OTClaim]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[OTClaimCancel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[OTClaimReason]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PaymentCalculationFormula]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PaymentCalculationFormulaType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PaymentCode]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PaymentRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PaymentType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayrollBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayrollGroup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayrollGroupLeaveCodeSetupOverride]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayrollGroupUsers]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayrollPeriod]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayrollProrataFormula]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayScale]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PayScaleMap]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PermitType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PlaceOfBirth]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Position]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PS_BackpayBatchDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PS_SalaryIncrementBatch]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PS_SalaryIncrementBatchDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PublicHoliday]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Qualification]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Rank]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ReminderType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ReportBuilder]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestEmpEmergencyContact]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestEmpPersonalInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestLateWaive]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestLateWaiveCancel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestLeaveApplication]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestLeaveApplicationCancel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestOTClaim]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestOTClaimCancel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RequestStatus]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterClient]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterClientSite]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterCode]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterCodeAdditionalPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterCodeDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterTable]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[RosterTableGroup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SalesCommissionPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SalesCommissionPlanDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ShiftDutyCode]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[ShopSalesTarget]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Skill]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SkillLevel]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[StaffType]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[StatutoryHoliday]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SupportingDocuments]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SystemFunction]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SystemFunctionEmailAlert]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SystemParameter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxCompany]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxCompanyMap]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxEmp]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxEmpPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxEmpPlaceOfResidence]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxForm]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TaxPaymentMap]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpBankAccount]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpDependant]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpEmergencyContact]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpExtraField]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpExtraFieldValue]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpHierarchy]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpPermit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpPersonalInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpPersonalInfoDeleted]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpPositionInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpQualification]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpRecurringPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpRPWinson]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpSkill]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpSpouse]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpTermination]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TempEmpWorkExp]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TextTransformation]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TimeCardLocationMap]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TimeCardRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TimeCardRecordBackup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Trainer]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TrainingCourse]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TrainingProgram]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TrainingProgramCategory]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TrainingProgramSubCategory]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TrainingSeminar]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadAttendancePreparationProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadAttendanceRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadClaimsAndDeductions]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadCommissionAchievement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadCompensationLeaveEntitle]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadDoublePayAdjustment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpAppraisal]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpAppreciation]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpAVCPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpBankAccount]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpBeneficiaries]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpBenefit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpCasualPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpContractTerms]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpCostCenter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpCostCenterDetail]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpDependant]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpDisciplinary]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpEmergencyContact]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpExtraFieldValue]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpFinalPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpHierarchy]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpMPFPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpORSOPlan]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpPermit]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpPersonalInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpPlaceOfResidence]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpPositionInfo]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpQualification]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpRecurringPayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpRosterTableGroup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpSkill]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpSponsorshipBudget]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpSpouse]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpTermination]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpTrainingHistory]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpWorkExp]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpWorkingSummary]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadEmpWorkInjuryRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadHitRateProcess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadHSBCEnrollmentFormERSection]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadHSBCMPFFormImportTemplate]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadIncentivePayment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadLeaveApplication]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadLeaveBalanceAdjustment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadRosterTable]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadShopActualSales]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadShopTargetSales]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UploadTimeCardRecord]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserCompany]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserGroup]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserGroupAccess]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserGroupFunction]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserRank]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserReminderOption]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Users]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserTask]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Venue]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[WorkHourPattern]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[YEBPlan]",
+                       "ObjectType":  0
+                   }
+               ],
+    "UiHint":  null,
+    "UncountableWords":  null,
+    "UseAsyncStoredProcedureCalls":  true,
+    "UseBoolPropertiesWithoutDefaultSql":  false,
+    "UseDatabaseNames":  true,
+    "UseDatabaseNamesForRoutines":  true,
+    "UseDateOnlyTimeOnly":  true,
+    "UseDbContextSplitting":  false,
+    "UseDecimalDataAnnotationForSprocResult":  true,
+    "UseFluentApiOnly":  true,
+    "UseHandleBars":  false,
+    "UseHierarchyId":  false,
+    "UseInflector":  true,
+    "UseInternalAccessModifiersForSprocsAndFunctions":  false,
+    "UseLegacyPluralizer":  false,
+    "UseManyToManyEntity":  false,
+    "UseNoDefaultConstructor":  false,
+    "UseNoNavigations":  false,
+    "UseNoObjectFilter":  false,
+    "UseNodaTime":  false,
+    "UseNullableReferences":  false,
+    "UsePrefixNavigationNaming":  false,
+    "UseSchemaFolders":  false,
+    "UseSchemaNamespaces":  false,
+    "UseSpatial":  false,
+    "UseT4":  false,
+    "UseT4Split":  false,
+    "UseTypedTvpParameters":  true
+}

@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iMGR.Employee.UnitTests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{90298CBA-BD6F-3A0A-69D5-97CAD7B05E7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iMGR.Database", "src\BuildingBlocks\iMGR.LegacyData\iMGR.Database.csproj", "{964B55B8-65E5-4D3F-956E-5D8419ACCE87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iMGR.LegacyData", "src\BuildingBlocks\iMGR.LegacyData\iMGR.LegacyData.csproj", "{964B55B8-65E5-4D3F-956E-5D8419ACCE87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

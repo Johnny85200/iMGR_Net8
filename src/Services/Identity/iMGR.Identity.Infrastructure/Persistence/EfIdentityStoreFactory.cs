@@ -1,6 +1,6 @@
 using IMGR.Identity.Application.Abstractions;
 using IMGR.Identity.Infrastructure.Tenancy;
-using IMGR.LegacyData.Tenant;
+using IMGR.Database.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Identity.Infrastructure.Persistence;

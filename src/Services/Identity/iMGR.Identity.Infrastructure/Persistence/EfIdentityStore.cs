@@ -1,33 +1,35 @@
 using System.Globalization;
 using IMGR.Identity.Application.Abstractions;
-using IMGR.Identity.Domain.Users;
-using IMGR.LegacyData.Tenant;
-using IMGR.LegacyData.Tenant.Entities;
+using IMGR.Database.Tenant;
+using IMGR.Database.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
+using DatabaseUser = IMGR.Database.Tenant.Entities.User;
+using DomainUser = IMGR.Identity.Domain.Users.User;
+using UserAccountStatus = IMGR.Identity.Domain.Users.UserAccountStatus;
 
 namespace IMGR.Identity.Infrastructure.Persistence;
 
 internal sealed class EfIdentityStore(LegacyTenantDbContext dbContext) : IIdentityStore
 {
     private const string MaximumFailedLoginsParameter = "LOGIN_MAX_FAIL_COUNT";
-    private readonly Dictionary<int, (User Domain, Users Entity)> trackedUsers = [];
+    private readonly Dictionary<int, (DomainUser Domain, DatabaseUser Entity)> trackedUsers = [];
 
-    public async Task<User?> FindUserByLoginIdAsync(string loginId, CancellationToken cancellationToken)
+    public async Task<DomainUser?> FindUserByLoginIdAsync(string loginId, CancellationToken cancellationToken)
     {
         var entity = await dbContext.Users
-            .Where(user => user.LoginId == loginId && user.AccountStatus != UserAccountStatus.Deleted)
+            .Where(user => user.LoginID == loginId && user.UserAccountStatus != UserAccountStatus.Deleted)
             .SingleOrDefaultAsync(cancellationToken);
         if (entity is null)
         {
             return null;
         }
 
-        var user = User.CreateForAuthentication(
-            entity.UserId,
-            entity.LoginId,
+        var user = DomainUser.CreateForAuthentication(
+            entity.UserID,
+            entity.LoginID,
             entity.UserName,
-            entity.PasswordHash,
-            entity.AccountStatus,
+            entity.UserPassword,
+            entity.UserAccountStatus,
             entity.FailCount ?? 0,
             entity.UserChangePassword ?? false,
             entity.UserChangePasswordPeriod,
@@ -60,14 +62,14 @@ internal sealed class EfIdentityStore(LegacyTenantDbContext dbContext) : IIdenti
     {
         dbContext.LoginAudits.Add(new LoginAudit
         {
-            UserId = entry.UserId,
-            LoginId = Limit(entry.LoginId, 255),
-            LoginMachine = Limit(entry.Machine, 255),
-            LoginIpAddress = Limit(entry.IpAddress, 255),
-            LoginAgent = entry.UserAgent,
-            LoginDateTime = entry.OccurredAt,
-            IsLoginFail = entry.Failed ? 1 : 0,
-            LoginErrorMessage = Limit(entry.ErrorMessage, 255)
+            UserID = entry.UserId,
+            LoginAuditLoginID = Limit(entry.LoginId, 255),
+            LoginAuditLoginMachine = Limit(entry.Machine, 255),
+            LoginAuditLoginIPAddress = Limit(entry.IpAddress, 255),
+            LoginAuditLoginAgent = entry.UserAgent,
+            LoginAuditLoginDateTime = entry.OccurredAt,
+            LoginAuditIsLoginFail = entry.Failed,
+            LoginAuditLoginErrorMesage = Limit(entry.ErrorMessage, 255)
         });
     }
 
@@ -75,8 +77,8 @@ internal sealed class EfIdentityStore(LegacyTenantDbContext dbContext) : IIdenti
     {
         foreach (var (domain, entity) in trackedUsers.Values)
         {
-            entity.PasswordHash = domain.PasswordHash;
-            entity.AccountStatus = domain.AccountStatus;
+            entity.UserPassword = domain.PasswordHash;
+            entity.UserAccountStatus = domain.AccountStatus;
             entity.FailCount = domain.FailCount;
         }
 

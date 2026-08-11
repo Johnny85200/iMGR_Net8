@@ -1,0 +1,162 @@
+{
+    "CodeGenerationMode":  4,
+    "ContextClassName":  "LegacyControlDbContext",
+    "ContextNamespace":  "IMGR.Database.Control",
+    "FilterSchemas":  false,
+    "IncludeConnectionString":  false,
+    "IrregularWords":  null,
+    "MinimumProductVersion":  "2.6.1604",
+    "ModelNamespace":  "IMGR.Database.Control.Entities",
+    "OutputContextPath":  "Control",
+    "OutputPath":  "Control\\Entities",
+    "PluralRules":  null,
+    "PreserveCasingWithRegex":  true,
+    "ProjectRootNamespace":  "IMGR.Database",
+    "Schemas":  null,
+    "SelectedHandlebarsLanguage":  2,
+    "SelectedToBeGenerated":  0,
+    "SingularRules":  null,
+    "T4TemplatePath":  null,
+    "Tables":  [
+                   {
+                       "Name":  "[dbo].[ClientSource]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyAutopayFile]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyAutopayFileSignature]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyDatabase]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyEnrollmentForm]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyInbox]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyInboxAttachment]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyMPFFile]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[CompanyMPFFileSignature]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[DatabaseServer]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[EmailLog]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HSBCBankPaymentCode]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[HSBCExchangeProfile]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[iMGRAnnouncement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[iStaffUserDeactivationLog]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFEnrollmentForm]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFFollowUpAgreement]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[MPFSchemeEnrollmentForm]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[PublicHoliday]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[StatutoryHoliday]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SystemFunction]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[SystemParameter]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[temp1]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[TextTransformation]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Token]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserApiToken]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[UserFunction]",
+                       "ObjectType":  0
+                   },
+                   {
+                       "Name":  "[dbo].[Users]",
+                       "ObjectType":  0
+                   }
+               ],
+    "UiHint":  null,
+    "UncountableWords":  null,
+    "UseAsyncStoredProcedureCalls":  true,
+    "UseBoolPropertiesWithoutDefaultSql":  false,
+    "UseDatabaseNames":  true,
+    "UseDatabaseNamesForRoutines":  true,
+    "UseDateOnlyTimeOnly":  true,
+    "UseDbContextSplitting":  false,
+    "UseDecimalDataAnnotationForSprocResult":  true,
+    "UseFluentApiOnly":  true,
+    "UseHandleBars":  false,
+    "UseHierarchyId":  false,
+    "UseInflector":  true,
+    "UseInternalAccessModifiersForSprocsAndFunctions":  false,
+    "UseLegacyPluralizer":  false,
+    "UseManyToManyEntity":  false,
+    "UseNoDefaultConstructor":  false,
+    "UseNoNavigations":  false,
+    "UseNoObjectFilter":  false,
+    "UseNodaTime":  false,
+    "UseNullableReferences":  false,
+    "UsePrefixNavigationNaming":  false,
+    "UseSchemaFolders":  false,
+    "UseSchemaNamespaces":  false,
+    "UseSpatial":  false,
+    "UseT4":  false,
+    "UseT4Split":  false,
+    "UseTypedTvpParameters":  true
+}

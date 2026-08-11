@@ -6,7 +6,7 @@
 
 - 目标框架：.NET 8、ASP.NET Core Web API、EF Core 8、SQL Server。
 - 分层：Domain / Application / Infrastructure / API，业务逻辑不依赖 Web 或 EF Core。
-- 数据访问：旧库统一采用 Database First；数据库实体集中在 `iMGR.LegacyData`，由 Identity 和 Employee 共用，API 不直接暴露这些实体。
+- 数据访问：旧库统一采用 Database First；数据库实体集中在 `iMGR.Database`，由 Identity 和 Employee 共用，API 不直接暴露这些实体。
 - 旧库兼容：映射租户库的 `dbo.Users`、`dbo.SystemParameter`、`dbo.LoginAudit`，以及 `_imgrCtrl` 的 `CompanyDatabase`、`DatabaseServer`；不自动执行 migration。
 - 登录：`POST /api/auth/login`。
 - 当前用户：`GET /api/auth/User`，需要 Bearer Token。
@@ -21,7 +21,7 @@
 ```text
 iMGR.Modernization.sln
 ├─ src/BuildingBlocks
-│  └─ iMGR.LegacyData
+│  └─ iMGR.Database
 ├─ src/Services/Identity
 │  ├─ iMGR.Identity.Domain
 │  ├─ iMGR.Identity.Application
@@ -40,7 +40,7 @@ iMGR.Modernization.sln
 └─ infra/sql
 ```
 
-后续每个微服务沿用相同四层结构。`iMGR.LegacyData` 是针对同一套旧租户数据库的共享适配层；业务 Domain、DTO 和业务逻辑仍不跨服务共享。
+后续每个微服务沿用相同四层结构。`iMGR.Database` 是针对同一套旧租户数据库的共享适配层；业务 Domain、DTO 和业务逻辑仍不跨服务共享。
 
 ## 配置与启动
 
@@ -94,7 +94,7 @@ dotnet test C:\0_Fork\iMGR2_Net8\iMGR.Modernization.sln
 
 接入数据库前先运行只读预检脚本：[control-database-preflight.sql](infra/sql/control-database-preflight.sql)、[identity-preflight.sql](infra/sql/identity-preflight.sql) 和 [employee-preflight.sql](infra/sql/employee-preflight.sql)。
 
-数据库结构变更后，在 Visual Studio 中右键 `iMGR.LegacyData`，使用 EF Core Power Tools 的 **Compare DbContext to Database** 检查差异，再通过 **Reverse Engineer / Refresh** 更新共享实体。详细操作见 [Database First 分层与更新规范](docs/architecture/database-first-guidelines.md)。
+数据库结构变更后，在 Visual Studio 中右键 `iMGR.Database`，使用 EF Core Power Tools 的 **Compare DbContext to Database** 检查差异，再通过 **Reverse Engineer / Refresh** 更新共享实体。详细操作见 [Database First 分层与更新规范](docs/architecture/database-first-guidelines.md)。
 
 ## 设计文档
 

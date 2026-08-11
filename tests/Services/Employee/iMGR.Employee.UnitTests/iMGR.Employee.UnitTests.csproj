@@ -4,6 +4,7 @@
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\BuildingBlocks\iMGR.LegacyData\iMGR.Database.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\Employee\iMGR.Employee.Domain\iMGR.Employee.Domain.csproj" />
     <ProjectReference Include="..\..\..\..\src\Services\Employee\iMGR.Employee.Infrastructure\iMGR.Employee.Infrastructure.csproj" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-using IMGR.LegacyData.Control;
+using IMGR.Database.Control;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,21 +30,21 @@ internal sealed class TenantConnectionResolver(EmployeeInfrastructureOptions opt
         await using var dbContext = new LegacyControlDbContext(dbOptions);
         var company = await dbContext.CompanyDatabases
             .AsNoTracking()
-            .Where(record => record.ClientCode == normalized)
-            .OrderBy(record => record.CompanyDatabaseId)
+            .Where(record => record.CompanyDBClientCode == normalized)
+            .OrderBy(record => record.CompanyDBID)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (company is null || company.IsActive is not true)
+        if (company is null || company.CompanyDBIsActive is not true)
         {
             return null;
         }
 
-        if (options.ControlDatabase.RequireImgrEnabled && company.HasImgr is not true)
+        if (options.ControlDatabase.RequireImgrEnabled && company.CompanyDBHasIMGR is not true)
         {
             return null;
         }
 
-        if (company.DatabaseServerId is null)
+        if (company.DBServerID is null)
         {
             throw new InvalidOperationException($"Tenant '{normalized}' has no DatabaseServer reference.");
         }
@@ -52,26 +52,26 @@ internal sealed class TenantConnectionResolver(EmployeeInfrastructureOptions opt
         var server = await dbContext.DatabaseServers
             .AsNoTracking()
             .SingleOrDefaultAsync(
-                record => record.DatabaseServerId == company.DatabaseServerId,
+                record => record.DBServerID == company.DBServerID,
                 cancellationToken)
             ?? throw new InvalidOperationException(
-                $"DatabaseServer {company.DatabaseServerId} for tenant '{normalized}' was not found.");
+                $"DatabaseServer {company.DBServerID} for tenant '{normalized}' was not found.");
 
         var protector = new LegacyFieldProtector(options.ControlDatabase.LegacyEncryptionKey);
-        var databaseType = protector.Unprotect(server.DatabaseType);
+        var databaseType = protector.Unprotect(server.DBServerDBType);
         if (!string.Equals(databaseType, "MSSQL", StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException("Only MSSQL tenant databases are supported.");
         }
 
-        var dataSource = RequireValue(protector.Unprotect(server.Location), "DatabaseServer.DBServerLocation");
-        var databaseName = protector.Unprotect(company.DatabaseSchemaName);
+        var dataSource = RequireValue(protector.Unprotect(server.DBServerLocation), "DatabaseServer.DBServerLocation");
+        var databaseName = protector.Unprotect(company.CompanyDBSchemaName);
         if (string.IsNullOrWhiteSpace(databaseName))
         {
-            databaseName = RequireValue(company.ClientCode, "CompanyDatabase.CompanyDBClientCode");
+            databaseName = RequireValue(company.CompanyDBClientCode, "CompanyDatabase.CompanyDBClientCode");
         }
 
-        var userId = protector.Unprotect(server.UserId);
+        var userId = protector.Unprotect(server.DBServerUserID);
         var builder = new SqlConnectionStringBuilder
         {
             DataSource = dataSource,
@@ -89,7 +89,7 @@ internal sealed class TenantConnectionResolver(EmployeeInfrastructureOptions opt
         else
         {
             builder.UserID = userId;
-            builder.Password = protector.Unprotect(server.Password) ?? string.Empty;
+            builder.Password = protector.Unprotect(server.DBServerPassword) ?? string.Empty;
         }
 
         return new TenantDescriptor(normalized, builder.ConnectionString);

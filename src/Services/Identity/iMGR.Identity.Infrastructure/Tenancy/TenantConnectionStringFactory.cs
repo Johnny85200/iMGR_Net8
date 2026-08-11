@@ -1,4 +1,4 @@
-using IMGR.LegacyData.Control.Entities;
+using IMGR.Database.Control.Entities;
 using Microsoft.Data.SqlClient;
 
 namespace IMGR.Identity.Infrastructure.Tenancy;
@@ -11,20 +11,20 @@ internal sealed class TenantConnectionStringFactory(
         CompanyDatabase company,
         DatabaseServer server)
     {
-        var databaseType = decryptor.Decrypt(server.DatabaseType);
+        var databaseType = decryptor.Decrypt(server.DBServerDBType);
         if (!string.Equals(databaseType, "MSSQL", StringComparison.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(
                 "The tenant database type is unsupported or its legacy encryption key is invalid.");
         }
 
-        var dataSource = RequireValue(decryptor.Decrypt(server.Location), "DatabaseServer.DBServerLocation");
-        var schemaName = decryptor.Decrypt(company.DatabaseSchemaName);
+        var dataSource = RequireValue(decryptor.Decrypt(server.DBServerLocation), "DatabaseServer.DBServerLocation");
+        var schemaName = decryptor.Decrypt(company.CompanyDBSchemaName);
         var databaseName = string.IsNullOrWhiteSpace(schemaName)
-            ? RequireValue(company.ClientCode, "CompanyDatabase.CompanyDBClientCode")
+            ? RequireValue(company.CompanyDBClientCode, "CompanyDatabase.CompanyDBClientCode")
             : schemaName;
-        var userId = decryptor.Decrypt(server.UserId);
-        var password = decryptor.Decrypt(server.Password);
+        var userId = decryptor.Decrypt(server.DBServerUserID);
+        var password = decryptor.Decrypt(server.DBServerPassword);
 
         var builder = new SqlConnectionStringBuilder
         {
