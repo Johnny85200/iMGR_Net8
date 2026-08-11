@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IMGR.Database.Tenant.Entities;
+namespace IMGR.LegacyData.Tenant.Entities;
 
 public partial class LeaveType
 {

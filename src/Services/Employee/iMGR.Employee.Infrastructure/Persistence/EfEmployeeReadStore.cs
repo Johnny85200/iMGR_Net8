@@ -4,8 +4,8 @@ using IMGR.Employee.Domain.Employees;
 using IMGR.Employee.Domain.Employment;
 using IMGR.Employee.Domain.Profiles;
 using IMGR.Employee.Infrastructure.Tenancy;
-using IMGR.Database.Tenant;
-using IMGR.Database.Tenant.Entities;
+using IMGR.LegacyData.Tenant;
+using IMGR.LegacyData.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Employee.Infrastructure.Persistence;

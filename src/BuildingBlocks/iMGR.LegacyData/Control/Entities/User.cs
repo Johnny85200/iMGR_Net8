@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace IMGR.Database.Control.Entities;
+namespace IMGR.LegacyData.Control.Entities;
 
 public partial class User
 {

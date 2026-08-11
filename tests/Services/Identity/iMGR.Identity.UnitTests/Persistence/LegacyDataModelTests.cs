@@ -1,10 +1,10 @@
-using IMGR.Database.Control;
-using IMGR.Database.Control.Entities;
-using IMGR.Database.Tenant;
-using IMGR.Database.Tenant.Entities;
+using IMGR.LegacyData.Control;
+using IMGR.LegacyData.Control.Entities;
+using IMGR.LegacyData.Tenant;
+using IMGR.LegacyData.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
-using DatabaseUser = IMGR.Database.Tenant.Entities.User;
-using TenantSystemParameter = IMGR.Database.Tenant.Entities.SystemParameter;
+using DatabaseUser = IMGR.LegacyData.Tenant.Entities.User;
+using TenantSystemParameter = IMGR.LegacyData.Tenant.Entities.SystemParameter;
 
 namespace IMGR.Identity.UnitTests.Persistence;
 

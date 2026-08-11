@@ -1,4 +1,4 @@
-using IMGR.Database.Control;
+using IMGR.LegacyData.Control;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 

@@ -2,10 +2,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using IMGR.Database.Control.Entities;
+using IMGR.LegacyData.Control.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMGR.Database.Control;
+namespace IMGR.LegacyData.Control;
 
 public partial class LegacyControlDbContext : DbContext
 {

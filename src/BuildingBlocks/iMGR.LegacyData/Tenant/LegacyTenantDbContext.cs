@@ -2,10 +2,10 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using IMGR.Database.Tenant.Entities;
+using IMGR.LegacyData.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMGR.Database.Tenant;
+namespace IMGR.LegacyData.Tenant;
 
 public partial class LegacyTenantDbContext : DbContext
 {

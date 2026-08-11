@@ -1,5 +1,5 @@
 using IMGR.Identity.Infrastructure.Tenancy;
-using IMGR.Database.Control.Entities;
+using IMGR.LegacyData.Control.Entities;
 using Microsoft.Data.SqlClient;
 
 namespace IMGR.Identity.UnitTests.Tenancy;

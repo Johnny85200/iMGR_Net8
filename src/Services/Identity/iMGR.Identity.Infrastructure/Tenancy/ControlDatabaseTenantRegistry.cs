@@ -1,4 +1,4 @@
-using IMGR.Database.Control;
+using IMGR.LegacyData.Control;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Identity.Infrastructure.Tenancy;

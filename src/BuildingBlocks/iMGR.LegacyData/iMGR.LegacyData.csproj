@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <AssemblyName>iMGR.Database</AssemblyName>
-    <RootNamespace>IMGR.Database</RootNamespace>
+    <AssemblyName>iMGR.LegacyData</AssemblyName>
+    <RootNamespace>IMGR.LegacyData</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>

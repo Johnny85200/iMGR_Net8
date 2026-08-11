@@ -1,9 +1,9 @@
 using System.Globalization;
 using IMGR.Identity.Application.Abstractions;
-using IMGR.Database.Tenant;
-using IMGR.Database.Tenant.Entities;
+using IMGR.LegacyData.Tenant;
+using IMGR.LegacyData.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
-using DatabaseUser = IMGR.Database.Tenant.Entities.User;
+using DatabaseUser = IMGR.LegacyData.Tenant.Entities.User;
 using DomainUser = IMGR.Identity.Domain.Users.User;
 using UserAccountStatus = IMGR.Identity.Domain.Users.UserAccountStatus;
 
