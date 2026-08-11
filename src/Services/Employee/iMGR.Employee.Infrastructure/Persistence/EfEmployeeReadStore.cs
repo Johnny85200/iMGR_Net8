@@ -4,12 +4,14 @@ using IMGR.Employee.Domain.Employees;
 using IMGR.Employee.Domain.Employment;
 using IMGR.Employee.Domain.Profiles;
 using IMGR.Employee.Infrastructure.Tenancy;
+using IMGR.LegacyData.Tenant;
+using IMGR.LegacyData.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Employee.Infrastructure.Persistence;
 
 internal sealed class EfEmployeeReadStore(
-    EmployeeDbContext dbContext,
+    LegacyTenantDbContext dbContext,
     LegacyFieldProtector protector) : IEmployeeReadStore
 {
     public async Task<EmployeePage> SearchAsync(
@@ -420,7 +422,7 @@ internal sealed class EfEmployeeReadStore(
         return records.Where(record => keys.Contains(keySelector(record))).ToDictionary(keySelector);
     }
 
-    private string BuildDisplayName(EmployeeRecord record)
+    private string BuildDisplayName(EmpPersonalInfo record)
     {
         var englishName = string.Join(' ', new[] { U(record.EnglishSurname), U(record.EnglishOtherName) }
             .Where(value => !string.IsNullOrWhiteSpace(value)));

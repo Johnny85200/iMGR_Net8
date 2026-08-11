@@ -2,6 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\iMGR.Identity.Application\iMGR.Identity.Application.csproj" />
     <ProjectReference Include="..\iMGR.Identity.Domain\iMGR.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\iMGR.LegacyData\iMGR.Database.csproj" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

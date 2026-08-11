@@ -1,4 +1,5 @@
 using IMGR.Identity.Infrastructure.Tenancy;
+using IMGR.LegacyData.Control.Entities;
 using Microsoft.Data.SqlClient;
 
 namespace IMGR.Identity.UnitTests.Tenancy;
@@ -42,12 +43,12 @@ public sealed class TenantResolutionTests
         var factory = new TenantConnectionStringFactory(
             options,
             new LegacyFieldDecryptor(options.LegacyEncryptionKey));
-        var company = new ControlCompanyDatabaseRecord
+        var company = new CompanyDatabase
         {
             ClientCode = "CLIENT1",
             DatabaseSchemaName = "2gyHIWkxZfWip7TOuZihCg=="
         };
-        var server = new ControlDatabaseServerRecord
+        var server = new DatabaseServer
         {
             DatabaseType = "655WrqLeSzGndK1D8ASrdw==",
             Location = "HWbUW/MDjbJBIyZGnnTwIhug8iWV4XTQpjh9JDmzyXM=",

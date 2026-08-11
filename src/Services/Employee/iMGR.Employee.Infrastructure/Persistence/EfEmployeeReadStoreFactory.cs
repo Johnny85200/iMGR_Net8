@@ -1,5 +1,6 @@
 using IMGR.Employee.Application.Abstractions;
 using IMGR.Employee.Infrastructure.Tenancy;
+using IMGR.LegacyData.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Employee.Infrastructure.Persistence;
@@ -19,7 +20,7 @@ internal sealed class EfEmployeeReadStoreFactory(EmployeeInfrastructureOptions o
             return null;
         }
 
-        var dbOptions = new DbContextOptionsBuilder<EmployeeDbContext>()
+        var dbOptions = new DbContextOptionsBuilder<LegacyTenantDbContext>()
             .UseSqlServer(tenant.ConnectionString, sql =>
             {
                 sql.UseCompatibilityLevel(options.ControlDatabase.TenantCompatibilityLevel);
@@ -27,7 +28,7 @@ internal sealed class EfEmployeeReadStoreFactory(EmployeeInfrastructureOptions o
             })
             .Options;
         return new EfEmployeeReadStore(
-            new EmployeeDbContext(dbOptions),
+            new LegacyTenantDbContext(dbOptions),
             new LegacyFieldProtector(options.ControlDatabase.LegacyEncryptionKey));
     }
 }

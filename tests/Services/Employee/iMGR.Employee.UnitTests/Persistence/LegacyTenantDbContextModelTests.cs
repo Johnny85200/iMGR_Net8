@@ -1,17 +1,17 @@
-using IMGR.Employee.Infrastructure.Persistence;
+using IMGR.LegacyData.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Employee.UnitTests.Persistence;
 
-public sealed class EmployeeDbContextModelTests
+public sealed class LegacyTenantDbContextModelTests
 {
     [Fact]
     public void Model_ContainsAllLegacyEmployeeTables()
     {
-        var options = new DbContextOptionsBuilder<EmployeeDbContext>()
+        var options = new DbContextOptionsBuilder<LegacyTenantDbContext>()
             .UseSqlServer("Server=(local);Database=not-used;Trusted_Connection=True;TrustServerCertificate=True")
             .Options;
-        using var context = new EmployeeDbContext(options);
+        using var context = new LegacyTenantDbContext(options);
 
         var tableNames = context.Model.GetEntityTypes()
             .Select(entity => entity.GetTableName())

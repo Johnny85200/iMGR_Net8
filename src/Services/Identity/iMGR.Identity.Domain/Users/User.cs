@@ -51,7 +51,12 @@ public sealed class User
         int? passwordChangePeriod = null,
         string? passwordChangeUnit = null,
         DateTime? passwordChangeDate = null,
-        string? language = null)
+        string? language = null,
+        string? userEmail = null,
+        string? userMobileNo = null,
+        DateTime? expiryDate = null,
+        bool? userIsKeepConnected = null,
+        bool? usersCannotCreateUsersWithMorePermission = null)
     {
         return new User
         {
@@ -65,7 +70,12 @@ public sealed class User
             UserChangePasswordPeriod = passwordChangePeriod,
             UserChangePasswordUnit = passwordChangeUnit,
             UserChangePasswordDate = passwordChangeDate,
-            UserLanguage = language
+            UserLanguage = language,
+            UserEmail = userEmail,
+            UserMobileNo = userMobileNo,
+            ExpiryDate = expiryDate,
+            UserIsKeepConnected = userIsKeepConnected,
+            UsersCannotCreateUsersWithMorePermission = usersCannotCreateUsersWithMorePermission
         };
     }
 

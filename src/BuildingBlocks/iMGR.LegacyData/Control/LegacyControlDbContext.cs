@@ -1,16 +1,26 @@
+using IMGR.LegacyData.Control.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMGR.Identity.Infrastructure.Tenancy;
+namespace IMGR.LegacyData.Control;
 
-internal sealed class ControlDbContext(DbContextOptions<ControlDbContext> options) : DbContext(options)
+public partial class LegacyControlDbContext : DbContext
 {
-    public DbSet<ControlCompanyDatabaseRecord> CompanyDatabases => Set<ControlCompanyDatabaseRecord>();
+    public LegacyControlDbContext()
+    {
+    }
 
-    public DbSet<ControlDatabaseServerRecord> DatabaseServers => Set<ControlDatabaseServerRecord>();
+    public LegacyControlDbContext(DbContextOptions<LegacyControlDbContext> options)
+        : base(options)
+    {
+    }
+
+    public DbSet<CompanyDatabase> CompanyDatabases => Set<CompanyDatabase>();
+
+    public DbSet<DatabaseServer> DatabaseServers => Set<DatabaseServer>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var company = modelBuilder.Entity<ControlCompanyDatabaseRecord>();
+        var company = modelBuilder.Entity<CompanyDatabase>();
         company.ToTable("CompanyDatabase", "dbo");
         company.HasKey(record => record.CompanyDatabaseId).HasName("PK_CompanyDatabase");
         company.Property(record => record.CompanyDatabaseId).HasColumnName("CompanyDBID");
@@ -20,7 +30,7 @@ internal sealed class ControlDbContext(DbContextOptions<ControlDbContext> option
         company.Property(record => record.IsActive).HasColumnName("CompanyDBIsActive");
         company.Property(record => record.HasImgr).HasColumnName("CompanyDBHasIMGR");
 
-        var server = modelBuilder.Entity<ControlDatabaseServerRecord>();
+        var server = modelBuilder.Entity<DatabaseServer>();
         server.ToTable("DatabaseServer", "dbo");
         server.HasKey(record => record.DatabaseServerId).HasName("PK_DatabaseServer");
         server.Property(record => record.DatabaseServerId).HasColumnName("DBServerID");
@@ -29,5 +39,12 @@ internal sealed class ControlDbContext(DbContextOptions<ControlDbContext> option
         server.Property(record => record.UserId).HasColumnName("DBServerUserID").HasMaxLength(255);
         server.Property(record => record.Password).HasColumnName("DBServerPassword").HasMaxLength(255);
     }
-}
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer();
+        }
+    }
+}

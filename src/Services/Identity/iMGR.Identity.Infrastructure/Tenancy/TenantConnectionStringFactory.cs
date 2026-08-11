@@ -1,3 +1,4 @@
+using IMGR.LegacyData.Control.Entities;
 using Microsoft.Data.SqlClient;
 
 namespace IMGR.Identity.Infrastructure.Tenancy;
@@ -7,8 +8,8 @@ internal sealed class TenantConnectionStringFactory(
     LegacyFieldDecryptor decryptor)
 {
     public string Create(
-        ControlCompanyDatabaseRecord company,
-        ControlDatabaseServerRecord server)
+        CompanyDatabase company,
+        DatabaseServer server)
     {
         var databaseType = decryptor.Decrypt(server.DatabaseType);
         if (!string.Equals(databaseType, "MSSQL", StringComparison.OrdinalIgnoreCase))

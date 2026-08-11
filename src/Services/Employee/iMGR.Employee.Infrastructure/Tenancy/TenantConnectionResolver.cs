@@ -1,3 +1,4 @@
+using IMGR.LegacyData.Control;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,10 +24,10 @@ internal sealed class TenantConnectionResolver(EmployeeInfrastructureOptions opt
                     : null;
         }
 
-        var dbOptions = new DbContextOptionsBuilder<ControlDbContext>()
+        var dbOptions = new DbContextOptionsBuilder<LegacyControlDbContext>()
             .UseSqlServer(options.ControlDatabase.ConnectionString, sql => sql.EnableRetryOnFailure())
             .Options;
-        await using var dbContext = new ControlDbContext(dbOptions);
+        await using var dbContext = new LegacyControlDbContext(dbOptions);
         var company = await dbContext.CompanyDatabases
             .AsNoTracking()
             .Where(record => record.ClientCode == normalized)
@@ -98,52 +99,4 @@ internal sealed class TenantConnectionResolver(EmployeeInfrastructureOptions opt
         string.IsNullOrWhiteSpace(value)
             ? throw new InvalidOperationException($"{fieldName} is empty in the control database.")
             : value;
-}
-
-internal sealed class ControlDbContext(DbContextOptions<ControlDbContext> options) : DbContext(options)
-{
-    public DbSet<ControlCompanyDatabaseRecord> CompanyDatabases => Set<ControlCompanyDatabaseRecord>();
-
-    public DbSet<ControlDatabaseServerRecord> DatabaseServers => Set<ControlDatabaseServerRecord>();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        var company = modelBuilder.Entity<ControlCompanyDatabaseRecord>();
-        company.ToTable("CompanyDatabase", "dbo");
-        company.HasKey(record => record.CompanyDatabaseId);
-        company.Property(record => record.CompanyDatabaseId).HasColumnName("CompanyDBID");
-        company.Property(record => record.ClientCode).HasColumnName("CompanyDBClientCode").HasMaxLength(255);
-        company.Property(record => record.DatabaseServerId).HasColumnName("DBServerID");
-        company.Property(record => record.DatabaseSchemaName).HasColumnName("CompanyDBSchemaName").HasMaxLength(255);
-        company.Property(record => record.IsActive).HasColumnName("CompanyDBIsActive");
-        company.Property(record => record.HasImgr).HasColumnName("CompanyDBHasIMGR");
-
-        var server = modelBuilder.Entity<ControlDatabaseServerRecord>();
-        server.ToTable("DatabaseServer", "dbo");
-        server.HasKey(record => record.DatabaseServerId);
-        server.Property(record => record.DatabaseServerId).HasColumnName("DBServerID");
-        server.Property(record => record.DatabaseType).HasColumnName("DBServerDBType").HasMaxLength(100);
-        server.Property(record => record.Location).HasColumnName("DBServerLocation").HasMaxLength(255);
-        server.Property(record => record.UserId).HasColumnName("DBServerUserID").HasMaxLength(255);
-        server.Property(record => record.Password).HasColumnName("DBServerPassword").HasMaxLength(255);
-    }
-}
-
-internal sealed class ControlCompanyDatabaseRecord
-{
-    public int CompanyDatabaseId { get; set; }
-    public string? ClientCode { get; set; }
-    public int? DatabaseServerId { get; set; }
-    public string? DatabaseSchemaName { get; set; }
-    public bool? IsActive { get; set; }
-    public bool? HasImgr { get; set; }
-}
-
-internal sealed class ControlDatabaseServerRecord
-{
-    public int DatabaseServerId { get; set; }
-    public string? DatabaseType { get; set; }
-    public string? Location { get; set; }
-    public string? UserId { get; set; }
-    public string? Password { get; set; }
 }

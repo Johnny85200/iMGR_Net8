@@ -1,6 +1,6 @@
-namespace IMGR.Employee.Infrastructure.Persistence;
+namespace IMGR.LegacyData.Tenant.Entities;
 
-internal sealed class EmployeeRecord
+public partial class EmpPersonalInfo
 {
     public int EmployeeId { get; set; }
     public string? EmployeeNumber { get; set; }
@@ -29,7 +29,7 @@ internal sealed class EmployeeRecord
     public string? Remark { get; set; }
 }
 
-internal sealed class PositionRecord
+public partial class EmpPositionInfo
 {
     public int AssignmentId { get; set; }
     public int? EmployeeId { get; set; }
@@ -41,7 +41,7 @@ internal sealed class PositionRecord
     public int? EmploymentTypeId { get; set; }
 }
 
-internal sealed class EmployeeHierarchyRecord
+public partial class EmpHierarchy
 {
     public int EmployeeHierarchyId { get; set; }
     public int? EmployeeId { get; set; }
@@ -50,35 +50,35 @@ internal sealed class EmployeeHierarchyRecord
     public int? LevelId { get; set; }
 }
 
-internal sealed class CompanyRecord
+public partial class Company
 {
     public int CompanyId { get; set; }
     public string? Code { get; set; }
     public string? Name { get; set; }
 }
 
-internal sealed class PositionLookupRecord
+public partial class Position
 {
     public int PositionId { get; set; }
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
-internal sealed class RankRecord
+public partial class Rank
 {
     public int RankId { get; set; }
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
-internal sealed class EmploymentTypeRecord
+public partial class EmploymentType
 {
     public int EmploymentTypeId { get; set; }
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
-internal sealed class HierarchyLevelRecord
+public partial class HierarchyLevel
 {
     public int LevelId { get; set; }
     public string? Code { get; set; }
@@ -86,7 +86,7 @@ internal sealed class HierarchyLevelRecord
     public int? Sequence { get; set; }
 }
 
-internal sealed class HierarchyElementRecord
+public partial class HierarchyElement
 {
     public int ElementId { get; set; }
     public int? CompanyId { get; set; }
@@ -95,7 +95,7 @@ internal sealed class HierarchyElementRecord
     public int? LevelId { get; set; }
 }
 
-internal sealed class ContractRecord
+public partial class EmpContractTerms
 {
     public int ContractId { get; set; }
     public int? EmployeeId { get; set; }
@@ -109,7 +109,7 @@ internal sealed class ContractRecord
     public string? GratuityMethod { get; set; }
 }
 
-internal sealed class BankAccountRecord
+public partial class EmpBankAccount
 {
     public int BankAccountId { get; set; }
     public int? EmployeeId { get; set; }
@@ -121,13 +121,13 @@ internal sealed class BankAccountRecord
     public string? Remark { get; set; }
 }
 
-internal sealed class BankRecord
+public partial class BankList
 {
     public string BankCode { get; set; } = string.Empty;
     public string? Name { get; set; }
 }
 
-internal sealed class SpouseRecord
+public partial class EmpSpouse
 {
     public int SpouseId { get; set; }
     public int? EmployeeId { get; set; }
@@ -139,7 +139,7 @@ internal sealed class SpouseRecord
     public DateTime? DateOfBirth { get; set; }
 }
 
-internal sealed class DependantRecord
+public partial class EmpDependant
 {
     public int DependantId { get; set; }
     public int? EmployeeId { get; set; }
@@ -153,7 +153,7 @@ internal sealed class DependantRecord
     public DateTime? DateOfBirth { get; set; }
 }
 
-internal sealed class EmergencyContactRecord
+public partial class EmpEmergencyContact
 {
     public int EmergencyContactId { get; set; }
     public int? EmployeeId { get; set; }
@@ -164,7 +164,7 @@ internal sealed class EmergencyContactRecord
     public string? NightContactNumber { get; set; }
 }
 
-internal sealed class EmployeeSkillRecord
+public partial class EmpSkill
 {
     public int EmployeeSkillId { get; set; }
     public int? EmployeeId { get; set; }
@@ -172,21 +172,21 @@ internal sealed class EmployeeSkillRecord
     public int? SkillLevelId { get; set; }
 }
 
-internal sealed class SkillRecord
+public partial class Skill
 {
     public int SkillId { get; set; }
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
-internal sealed class SkillLevelRecord
+public partial class SkillLevel
 {
     public int SkillLevelId { get; set; }
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
-internal sealed class EmployeeQualificationRecord
+public partial class EmpQualification
 {
     public int EmployeeQualificationId { get; set; }
     public int? EmployeeId { get; set; }
@@ -198,14 +198,14 @@ internal sealed class EmployeeQualificationRecord
     public string? LearningMethod { get; set; }
 }
 
-internal sealed class QualificationRecord
+public partial class Qualification
 {
     public int QualificationId { get; set; }
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
-internal sealed class WorkExperienceRecord
+public partial class EmpWorkExp
 {
     public int WorkExperienceId { get; set; }
     public int? EmployeeId { get; set; }
@@ -220,7 +220,7 @@ internal sealed class WorkExperienceRecord
     public int? IsRelevantExperience { get; set; }
 }
 
-internal sealed class EmployeeDocumentRecord
+public partial class EmpDocument
 {
     public int DocumentId { get; set; }
     public int? EmployeeId { get; set; }
@@ -231,7 +231,7 @@ internal sealed class EmployeeDocumentRecord
     public int? IsProfilePhoto { get; set; }
 }
 
-internal sealed class DocumentTypeRecord
+public partial class DocumentType
 {
     public int DocumentTypeId { get; set; }
     public string? Code { get; set; }

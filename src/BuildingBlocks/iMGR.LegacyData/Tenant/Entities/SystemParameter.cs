@@ -1,6 +1,6 @@
-namespace IMGR.Identity.Infrastructure.Persistence;
+namespace IMGR.LegacyData.Tenant.Entities;
 
-internal sealed class SystemParameterRecord
+public partial class SystemParameter
 {
     public string ParameterCode { get; set; } = string.Empty;
 

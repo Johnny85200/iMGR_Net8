@@ -1,5 +1,6 @@
 using IMGR.Identity.Application.Abstractions;
 using IMGR.Identity.Infrastructure.Tenancy;
+using IMGR.LegacyData.Tenant;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Identity.Infrastructure.Persistence;
@@ -14,11 +15,11 @@ internal sealed class EfIdentityStoreFactory(ITenantRegistry tenantRegistry) : I
             return null;
         }
 
-        var options = new DbContextOptionsBuilder<IdentityDbContext>()
+        var options = new DbContextOptionsBuilder<LegacyTenantDbContext>()
             .UseSqlServer(tenant.ConnectionString, sqlServer => sqlServer.EnableRetryOnFailure())
             .Options;
 
-        IIdentityStore store = new EfIdentityStore(new IdentityDbContext(options));
+        IIdentityStore store = new EfIdentityStore(new LegacyTenantDbContext(options));
         return store;
     }
 }

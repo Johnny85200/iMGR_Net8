@@ -1,32 +1,45 @@
+using IMGR.LegacyData.Tenant.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMGR.Employee.Infrastructure.Persistence;
+namespace IMGR.LegacyData.Tenant;
 
-internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> options) : DbContext(options)
+public partial class LegacyTenantDbContext : DbContext
 {
-    public DbSet<EmployeeRecord> Employees => Set<EmployeeRecord>();
-    public DbSet<PositionRecord> Positions => Set<PositionRecord>();
-    public DbSet<EmployeeHierarchyRecord> EmployeeHierarchies => Set<EmployeeHierarchyRecord>();
-    public DbSet<CompanyRecord> Companies => Set<CompanyRecord>();
-    public DbSet<PositionLookupRecord> PositionLookups => Set<PositionLookupRecord>();
-    public DbSet<RankRecord> Ranks => Set<RankRecord>();
-    public DbSet<EmploymentTypeRecord> EmploymentTypes => Set<EmploymentTypeRecord>();
-    public DbSet<HierarchyLevelRecord> HierarchyLevels => Set<HierarchyLevelRecord>();
-    public DbSet<HierarchyElementRecord> HierarchyElements => Set<HierarchyElementRecord>();
-    public DbSet<ContractRecord> Contracts => Set<ContractRecord>();
-    public DbSet<BankAccountRecord> BankAccounts => Set<BankAccountRecord>();
-    public DbSet<BankRecord> Banks => Set<BankRecord>();
-    public DbSet<SpouseRecord> Spouses => Set<SpouseRecord>();
-    public DbSet<DependantRecord> Dependants => Set<DependantRecord>();
-    public DbSet<EmergencyContactRecord> EmergencyContacts => Set<EmergencyContactRecord>();
-    public DbSet<EmployeeSkillRecord> EmployeeSkills => Set<EmployeeSkillRecord>();
-    public DbSet<SkillRecord> Skills => Set<SkillRecord>();
-    public DbSet<SkillLevelRecord> SkillLevels => Set<SkillLevelRecord>();
-    public DbSet<EmployeeQualificationRecord> EmployeeQualifications => Set<EmployeeQualificationRecord>();
-    public DbSet<QualificationRecord> Qualifications => Set<QualificationRecord>();
-    public DbSet<WorkExperienceRecord> WorkExperiences => Set<WorkExperienceRecord>();
-    public DbSet<EmployeeDocumentRecord> EmployeeDocuments => Set<EmployeeDocumentRecord>();
-    public DbSet<DocumentTypeRecord> DocumentTypes => Set<DocumentTypeRecord>();
+    public LegacyTenantDbContext()
+    {
+    }
+
+    public LegacyTenantDbContext(DbContextOptions<LegacyTenantDbContext> options)
+        : base(options)
+    {
+    }
+
+    public DbSet<EmpPersonalInfo> Employees => Set<EmpPersonalInfo>();
+    public DbSet<EmpPositionInfo> Positions => Set<EmpPositionInfo>();
+    public DbSet<EmpHierarchy> EmployeeHierarchies => Set<EmpHierarchy>();
+    public DbSet<Company> Companies => Set<Company>();
+    public DbSet<Position> PositionLookups => Set<Position>();
+    public DbSet<Rank> Ranks => Set<Rank>();
+    public DbSet<EmploymentType> EmploymentTypes => Set<EmploymentType>();
+    public DbSet<HierarchyLevel> HierarchyLevels => Set<HierarchyLevel>();
+    public DbSet<HierarchyElement> HierarchyElements => Set<HierarchyElement>();
+    public DbSet<EmpContractTerms> Contracts => Set<EmpContractTerms>();
+    public DbSet<EmpBankAccount> BankAccounts => Set<EmpBankAccount>();
+    public DbSet<BankList> Banks => Set<BankList>();
+    public DbSet<EmpSpouse> Spouses => Set<EmpSpouse>();
+    public DbSet<EmpDependant> Dependants => Set<EmpDependant>();
+    public DbSet<EmpEmergencyContact> EmergencyContacts => Set<EmpEmergencyContact>();
+    public DbSet<EmpSkill> EmployeeSkills => Set<EmpSkill>();
+    public DbSet<Skill> Skills => Set<Skill>();
+    public DbSet<SkillLevel> SkillLevels => Set<SkillLevel>();
+    public DbSet<EmpQualification> EmployeeQualifications => Set<EmpQualification>();
+    public DbSet<Qualification> Qualifications => Set<Qualification>();
+    public DbSet<EmpWorkExp> WorkExperiences => Set<EmpWorkExp>();
+    public DbSet<EmpDocument> EmployeeDocuments => Set<EmpDocument>();
+    public DbSet<DocumentType> DocumentTypes => Set<DocumentType>();
+    public DbSet<Users> Users => Set<Users>();
+    public DbSet<SystemParameter> SystemParameters => Set<SystemParameter>();
+    public DbSet<LoginAudit> LoginAudits => Set<LoginAudit>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,11 +47,20 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         ConfigureEmployment(modelBuilder);
         ConfigureOrganization(modelBuilder);
         ConfigureProfileSections(modelBuilder);
+        ConfigureIdentity(modelBuilder);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer();
+        }
     }
 
     private static void ConfigureEmployee(ModelBuilder modelBuilder)
     {
-        var entity = modelBuilder.Entity<EmployeeRecord>();
+        var entity = modelBuilder.Entity<EmpPersonalInfo>();
         entity.ToTable("EmpPersonalInfo", "dbo");
         entity.HasKey(record => record.EmployeeId);
         entity.Property(record => record.EmployeeId).HasColumnName("EmpID");
@@ -70,7 +92,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
 
     private static void ConfigureEmployment(ModelBuilder modelBuilder)
     {
-        var position = modelBuilder.Entity<PositionRecord>();
+        var position = modelBuilder.Entity<EmpPositionInfo>();
         position.ToTable("EmpPositionInfo", "dbo");
         position.HasKey(record => record.AssignmentId);
         position.Property(record => record.AssignmentId).HasColumnName("EmpPosID");
@@ -82,7 +104,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         position.Property(record => record.RankId).HasColumnName("RankID");
         position.Property(record => record.EmploymentTypeId).HasColumnName("EmploymentTypeID");
 
-        var contract = modelBuilder.Entity<ContractRecord>();
+        var contract = modelBuilder.Entity<EmpContractTerms>();
         contract.ToTable("EmpContractTerms", "dbo");
         contract.HasKey(record => record.ContractId);
         contract.Property(record => record.ContractId).HasColumnName("EmpContractID");
@@ -99,7 +121,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
 
     private static void ConfigureOrganization(ModelBuilder modelBuilder)
     {
-        var hierarchy = modelBuilder.Entity<EmployeeHierarchyRecord>();
+        var hierarchy = modelBuilder.Entity<EmpHierarchy>();
         hierarchy.ToTable("EmpHierarchy", "dbo");
         hierarchy.HasKey(record => record.EmployeeHierarchyId);
         hierarchy.Property(record => record.EmployeeHierarchyId).HasColumnName("EmpHierarchyID");
@@ -108,16 +130,16 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         hierarchy.Property(record => record.ElementId).HasColumnName("HElementID");
         hierarchy.Property(record => record.LevelId).HasColumnName("HLevelID");
 
-        MapCodeDescription<CompanyRecord>(modelBuilder, "Company", record => record.CompanyId,
+        MapCodeDescription<Company>(modelBuilder, "Company", record => record.CompanyId,
             "CompanyID", record => record.Code, "CompanyCode", record => record.Name, "CompanyName");
-        MapCodeDescription<PositionLookupRecord>(modelBuilder, "Position", record => record.PositionId,
+        MapCodeDescription<Position>(modelBuilder, "Position", record => record.PositionId,
             "PositionID", record => record.Code, "PositionCode", record => record.Description, "PositionDesc");
-        MapCodeDescription<RankRecord>(modelBuilder, "Rank", record => record.RankId,
+        MapCodeDescription<Rank>(modelBuilder, "Rank", record => record.RankId,
             "RankID", record => record.Code, "RankCode", record => record.Description, "RankDesc");
-        MapCodeDescription<EmploymentTypeRecord>(modelBuilder, "EmploymentType", record => record.EmploymentTypeId,
+        MapCodeDescription<EmploymentType>(modelBuilder, "EmploymentType", record => record.EmploymentTypeId,
             "EmploymentTypeID", record => record.Code, "EmploymentTypeCode", record => record.Description, "EmploymentTypeDesc");
 
-        var level = modelBuilder.Entity<HierarchyLevelRecord>();
+        var level = modelBuilder.Entity<HierarchyLevel>();
         level.ToTable("HierarchyLevel", "dbo");
         level.HasKey(record => record.LevelId);
         level.Property(record => record.LevelId).HasColumnName("HLevelID");
@@ -125,7 +147,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         level.Property(record => record.Description).HasColumnName("HLevelDesc");
         level.Property(record => record.Sequence).HasColumnName("HLevelSeqNo");
 
-        var element = modelBuilder.Entity<HierarchyElementRecord>();
+        var element = modelBuilder.Entity<HierarchyElement>();
         element.ToTable("HierarchyElement", "dbo");
         element.HasKey(record => record.ElementId);
         element.Property(record => record.ElementId).HasColumnName("HElementID");
@@ -137,7 +159,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
 
     private static void ConfigureProfileSections(ModelBuilder modelBuilder)
     {
-        var bankAccount = modelBuilder.Entity<BankAccountRecord>();
+        var bankAccount = modelBuilder.Entity<EmpBankAccount>();
         bankAccount.ToTable("EmpBankAccount", "dbo");
         bankAccount.HasKey(record => record.BankAccountId);
         bankAccount.Property(record => record.BankAccountId).HasColumnName("EmpBankAccountID");
@@ -149,7 +171,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         bankAccount.Property(record => record.IsDefault).HasColumnName("EmpAccDefault");
         bankAccount.Property(record => record.Remark).HasColumnName("EmpBankAccountRemark");
 
-        var bank = modelBuilder.Entity<BankRecord>();
+        var bank = modelBuilder.Entity<BankList>();
         bank.ToTable("BankList", "dbo");
         bank.HasKey(record => record.BankCode);
         bank.Property(record => record.BankCode).HasColumnName("BankCode");
@@ -162,7 +184,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
 
     private static void ConfigureFamily(ModelBuilder modelBuilder)
     {
-        var spouse = modelBuilder.Entity<SpouseRecord>();
+        var spouse = modelBuilder.Entity<EmpSpouse>();
         spouse.ToTable("EmpSpouse", "dbo");
         spouse.HasKey(record => record.SpouseId);
         spouse.Property(record => record.SpouseId).HasColumnName("EmpSpouseID");
@@ -174,7 +196,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         spouse.Property(record => record.PassportNumber).HasColumnName("EmpSpousePassportNo");
         spouse.Property(record => record.DateOfBirth).HasColumnName("EmpSpouseDateOfBirth");
 
-        var dependant = modelBuilder.Entity<DependantRecord>();
+        var dependant = modelBuilder.Entity<EmpDependant>();
         dependant.ToTable("EmpDependant", "dbo");
         dependant.HasKey(record => record.DependantId);
         dependant.Property(record => record.DependantId).HasColumnName("EmpDependantID");
@@ -188,7 +210,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         dependant.Property(record => record.Relationship).HasColumnName("EmpDependantRelationship");
         dependant.Property(record => record.DateOfBirth).HasColumnName("EmpDependantDateOfBirth");
 
-        var emergency = modelBuilder.Entity<EmergencyContactRecord>();
+        var emergency = modelBuilder.Entity<EmpEmergencyContact>();
         emergency.ToTable("EmpEmergencyContact", "dbo");
         emergency.HasKey(record => record.EmergencyContactId);
         emergency.Property(record => record.EmergencyContactId).HasColumnName("EmpEmergencyContactID");
@@ -202,19 +224,19 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
 
     private static void ConfigureCapability(ModelBuilder modelBuilder)
     {
-        var employeeSkill = modelBuilder.Entity<EmployeeSkillRecord>();
+        var employeeSkill = modelBuilder.Entity<EmpSkill>();
         employeeSkill.ToTable("EmpSkill", "dbo");
         employeeSkill.HasKey(record => record.EmployeeSkillId);
         employeeSkill.Property(record => record.EmployeeSkillId).HasColumnName("EmpSkillID");
         employeeSkill.Property(record => record.EmployeeId).HasColumnName("EmpID");
         employeeSkill.Property(record => record.SkillId).HasColumnName("SkillID");
         employeeSkill.Property(record => record.SkillLevelId).HasColumnName("SkillLevelID");
-        MapCodeDescription<SkillRecord>(modelBuilder, "Skill", record => record.SkillId,
+        MapCodeDescription<Skill>(modelBuilder, "Skill", record => record.SkillId,
             "SkillID", record => record.Code, "SkillCode", record => record.Description, "SkillDesc");
-        MapCodeDescription<SkillLevelRecord>(modelBuilder, "SkillLevel", record => record.SkillLevelId,
+        MapCodeDescription<SkillLevel>(modelBuilder, "SkillLevel", record => record.SkillLevelId,
             "SkillLevelID", record => record.Code, "SkillLevelCode", record => record.Description, "SkillLevelDesc");
 
-        var employeeQualification = modelBuilder.Entity<EmployeeQualificationRecord>();
+        var employeeQualification = modelBuilder.Entity<EmpQualification>();
         employeeQualification.ToTable("EmpQualification", "dbo");
         employeeQualification.HasKey(record => record.EmployeeQualificationId);
         employeeQualification.Property(record => record.EmployeeQualificationId).HasColumnName("EmpQualificationID");
@@ -225,10 +247,10 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         employeeQualification.Property(record => record.Institution).HasColumnName("EmpQualificationInstitution");
         employeeQualification.Property(record => record.Remark).HasColumnName("EmpQualificationRemark");
         employeeQualification.Property(record => record.LearningMethod).HasColumnName("EmpQualificationLearningMethod");
-        MapCodeDescription<QualificationRecord>(modelBuilder, "Qualification", record => record.QualificationId,
+        MapCodeDescription<Qualification>(modelBuilder, "Qualification", record => record.QualificationId,
             "QualificationID", record => record.Code, "QualificationCode", record => record.Description, "QualificationDesc");
 
-        var work = modelBuilder.Entity<WorkExperienceRecord>();
+        var work = modelBuilder.Entity<EmpWorkExp>();
         work.ToTable("EmpWorkExp", "dbo");
         work.HasKey(record => record.WorkExperienceId);
         work.Property(record => record.WorkExperienceId).HasColumnName("EmpWorkExpID");
@@ -246,7 +268,7 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
 
     private static void ConfigureDocuments(ModelBuilder modelBuilder)
     {
-        var document = modelBuilder.Entity<EmployeeDocumentRecord>();
+        var document = modelBuilder.Entity<EmpDocument>();
         document.ToTable("EmpDocument", "dbo");
         document.HasKey(record => record.DocumentId);
         document.Property(record => record.DocumentId).HasColumnName("EmpDocumentID");
@@ -256,8 +278,52 @@ internal sealed class EmployeeDbContext(DbContextOptions<EmployeeDbContext> opti
         document.Property(record => record.Description).HasColumnName("EmpDocumentDesc");
         document.Property(record => record.IsCompressed).HasColumnName("EmpDocumentIsCompressed");
         document.Property(record => record.IsProfilePhoto).HasColumnName("EmpDocumentIsProfilePhoto");
-        MapCodeDescription<DocumentTypeRecord>(modelBuilder, "DocumentType", record => record.DocumentTypeId,
+        MapCodeDescription<DocumentType>(modelBuilder, "DocumentType", record => record.DocumentTypeId,
             "DocumentTypeID", record => record.Code, "DocumentTypeCode", record => record.Description, "DocumentTypeDesc");
+    }
+
+    private static void ConfigureIdentity(ModelBuilder modelBuilder)
+    {
+        var user = modelBuilder.Entity<Users>();
+        user.ToTable("Users", "dbo");
+        user.HasKey(record => record.UserId).HasName("PK_Users");
+        user.Property(record => record.UserId).HasColumnName("UserID").ValueGeneratedOnAdd();
+        user.Property(record => record.LoginId).HasColumnName("LoginID").HasMaxLength(20);
+        user.Property(record => record.UserName).HasColumnName("UserName").HasMaxLength(100);
+        user.Property(record => record.UserEmail).HasColumnName("UserEmail").HasMaxLength(50);
+        user.Property(record => record.UserMobileNo).HasColumnName("UserMobileNo").HasMaxLength(20);
+        user.Property(record => record.PasswordHash).HasColumnName("UserPassword").HasMaxLength(255);
+        user.Property(record => record.AccountStatus).HasColumnName("UserAccountStatus").HasMaxLength(1);
+        user.Property(record => record.ExpiryDate).HasColumnName("ExpiryDate").HasColumnType("datetime");
+        user.Property(record => record.UserChangePassword).HasColumnName("UserChangePassword");
+        user.Property(record => record.UserChangePasswordPeriod).HasColumnName("UserChangePasswordPeriod");
+        user.Property(record => record.UserChangePasswordUnit).HasColumnName("UserChangePasswordUnit").HasMaxLength(1);
+        user.Property(record => record.UserChangePasswordDate).HasColumnName("UserChangePasswordDate").HasColumnType("datetime");
+        user.Property(record => record.FailCount).HasColumnName("FailCount");
+        user.Property(record => record.UserLanguage).HasColumnName("UserLanguage").HasMaxLength(10);
+        user.Property(record => record.UserIsKeepConnected).HasColumnName("UserIsKeepConnected");
+        user.Property(record => record.UsersCannotCreateUsersWithMorePermission)
+            .HasColumnName("UsersCannotCreateUsersWithMorePermission");
+
+        var parameter = modelBuilder.Entity<SystemParameter>();
+        parameter.ToTable("SystemParameter", "dbo");
+        parameter.HasKey(record => record.ParameterCode).HasName("PK_SystemParameter");
+        parameter.Property(record => record.ParameterCode).HasColumnName("ParameterCode").HasMaxLength(100);
+        parameter.Property(record => record.ParameterDescription).HasColumnName("ParameterDesc").HasMaxLength(200);
+        parameter.Property(record => record.ParameterValue).HasColumnName("ParameterValue").HasColumnType("ntext");
+
+        var audit = modelBuilder.Entity<LoginAudit>();
+        audit.ToTable("LoginAudit", "dbo");
+        audit.HasKey(record => record.LoginAuditId).HasName("PK_LoginAudit");
+        audit.Property(record => record.LoginAuditId).HasColumnName("LoginAuditID").ValueGeneratedOnAdd();
+        audit.Property(record => record.UserId).HasColumnName("UserID");
+        audit.Property(record => record.LoginId).HasColumnName("LoginAuditLoginID").HasMaxLength(255);
+        audit.Property(record => record.LoginMachine).HasColumnName("LoginAuditLoginMachine").HasMaxLength(255);
+        audit.Property(record => record.LoginIpAddress).HasColumnName("LoginAuditLoginIPAddress").HasMaxLength(255);
+        audit.Property(record => record.LoginAgent).HasColumnName("LoginAuditLoginAgent").HasColumnType("ntext");
+        audit.Property(record => record.LoginDateTime).HasColumnName("LoginAuditLoginDateTime").HasColumnType("datetime");
+        audit.Property(record => record.IsLoginFail).HasColumnName("LoginAuditIsLoginFail");
+        audit.Property(record => record.LoginErrorMessage).HasColumnName("LoginAuditLoginErrorMesage").HasMaxLength(255);
     }
 
     private static void MapCodeDescription<TEntity>(

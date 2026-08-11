@@ -1,3 +1,4 @@
+using IMGR.LegacyData.Control;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMGR.Identity.Infrastructure.Tenancy;
@@ -6,14 +7,14 @@ internal sealed class ControlDatabaseTenantRegistry : ITenantRegistry
 {
     private readonly ControlDatabaseOptions _options;
     private readonly TenantConnectionStringFactory _connectionStringFactory;
-    private readonly DbContextOptions<ControlDbContext> _dbContextOptions;
+    private readonly DbContextOptions<LegacyControlDbContext> _dbContextOptions;
 
     public ControlDatabaseTenantRegistry(ControlDatabaseOptions options)
     {
         _options = options;
         var decryptor = new LegacyFieldDecryptor(options.LegacyEncryptionKey);
         _connectionStringFactory = new TenantConnectionStringFactory(options, decryptor);
-        _dbContextOptions = new DbContextOptionsBuilder<ControlDbContext>()
+        _dbContextOptions = new DbContextOptionsBuilder<LegacyControlDbContext>()
             .UseSqlServer(options.ConnectionString, sqlServer => sqlServer.EnableRetryOnFailure())
             .Options;
     }
@@ -28,7 +29,7 @@ internal sealed class ControlDatabaseTenantRegistry : ITenantRegistry
         }
 
         var normalizedTenantCode = tenantCode.Trim().ToUpperInvariant();
-        await using var dbContext = new ControlDbContext(_dbContextOptions);
+        await using var dbContext = new LegacyControlDbContext(_dbContextOptions);
 
         var company = await dbContext.CompanyDatabases
             .AsNoTracking()
